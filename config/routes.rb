@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'player/index', :to => 'player#index', :as => :player
+
   get 'game/index', :to => 'game#index', :as => :game
 
   get 'qrcode/index', :to => 'qrcode#index', :as => :qrcode
