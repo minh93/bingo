@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'deal/index', :to => 'deal#index', :as => :deal
+
+  get 'deal/add', :to => 'deal#add', :as => :add, :via => :post
+
   get 'qrcode/index', :to => 'qrcode#index', :as => :qrcode
 
   get 'welcome/index'

@@ -1,0 +1,10 @@
+<% 0.upto(74) do |i| %>
+  <%= form_tag({controller: "deal", action: "add"}, remote: true, method: "get", id: "form-#{i}") do%>
+    <%= hidden_field_tag(:number, @all_numbers[i]) %>
+    <%= submit_tag(@all_numbers[i], id: "btn-number-#{i}", onclick: "changeStyle(this.id);") %>
+  <% end %>
+<% end %>
+
+<div id='div-qr'>
+  <%= image_tag @qr %>
+</div>
