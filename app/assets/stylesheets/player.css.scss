@@ -2,6 +2,21 @@ table {
 	border : 1px solid black;
 }
 td {
+	text-align: center;
 	border : 1px solid black;
-	background-image : "red_image.png";
+}
+input[type=submit]{
+	border: 0px;
+	background: transparent;
+	background-image : url(image-path('circle_icon.png'));
+	width: 52px;
+	height: 52px;
+	background-repeat: no-repeat;
+	text-align: center;
+}
+
+form{
+	width : 55px;
+	height: 55px;
+	float: left;
 }

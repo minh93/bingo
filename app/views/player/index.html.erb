@@ -2,7 +2,10 @@
 <% @card.each do |row| %>
 					<tr>
 					<% row.each do |cell| %>
-					<td><%=cell  %></td>
-					<% end %></tr>
+					<td><%= form_tag({controller: "player", action: "checkNumber"}, remote: true, method: "post") do%>
+    <%= hidden_field_tag(:number, cell) %>
+    <%= submit_tag(cell, onclick: "changeBackGround(this);") %>
+  <% end %>
+  <% end -%> </tr>
 <% end %>
 </table>	

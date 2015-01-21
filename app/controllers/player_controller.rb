@@ -1,5 +1,5 @@
 class PlayerController < ApplicationController
-  
+  respond_to :html, :js
   @card = nil;
   def index
     @card = Array.new(5) {  Array.new(5)  };
@@ -26,5 +26,12 @@ class PlayerController < ApplicationController
     end
     return false;
   end
-
+  def checkNumber #action
+    @number = params[:number].to_i
+    respond_to do |format|
+      format.html { redirect_to 'index'}
+      format.js   {}
+      #format.json { render json: 'index', status: :created, location: 'index' }
+    end  
+  end
 end

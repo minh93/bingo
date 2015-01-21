@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   get 'welcome/index'
 
+  post 'player/checkNumber', :to => 'player#checkNumber', :via => :post 
+
   root 'welcome#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
