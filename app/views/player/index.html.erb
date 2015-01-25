@@ -1,11 +1,23 @@
 <table>
-<% @card.each do |row| %>
+<% (0..4).each do |row| %>
 					<tr>
-					<% row.each do |cell| %>
-					<td><%= form_tag({controller: "player", action: "checkNumber"}, remote: true, method: "post") do%>
-    <%= hidden_field_tag(:number, cell) %>
-    <%= submit_tag(cell, onclick: "changeBackGround(this);") %>
-  <% end %>
-  <% end -%> </tr>
+					<% (0..4).each do |colume| %>
+					<% if @card[row][colume] !=0 %>
+						<td id = <%= "#{@card[row][colume]}" %>><%= form_tag({controller: "player", action: "checkNumber"},remote: true, method: "get") do%>
+    <%= hidden_field_tag(:row, row) %>
+    <%= hidden_field_tag(:colume, colume) %>
+    <%= hidden_field_tag(:number, @card[row][colume]) %>
+    <%= submit_tag(@card[row][colume]) %>
+  	<% end %></td>	
+					<% else %>
+						<td id = "free"><%= @card[row][colume]%></td>
+					<%end%>
+					
+  <% end %></tr>
 <% end %>
 </table>	
+<div id="response"></div>
+<%= button_to "",  { action: "reach" }, { :remote => true,:method => "get", :disabled => true, :id => 'reach' , :onclick => "reachOnclick();"} 
+ %>
+<%= button_to "",  { action: "bingo" }, { :remote => true,:method => "get", :disabled => true , :id => 'bingo', :onclick => "bingoOnclick();" } 
+ %>

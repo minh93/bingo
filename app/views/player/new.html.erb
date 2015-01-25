@@ -1,0 +1,10 @@
+<h1>Signin</h1>
+<%= form_for @player, url: {action: "create"} do |f| %>
+	<%= render 'shared/error_messages' %>
+	
+
+	<%= f.label :name %>
+	<%= f.text_field :name %>
+
+	<%= f.submit "Create my name" %>
+	<% end -%>

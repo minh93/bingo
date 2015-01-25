@@ -1,4 +1,4 @@
-Rails.application.routes.draw do
+Rails.application.routes.draw do  
   get 'player/index', :to => 'player#index', :as => :player
 
   get 'game/index', :to => 'game#index', :as => :game
@@ -7,7 +7,17 @@ Rails.application.routes.draw do
 
   get 'welcome/index'
 
-  post 'player/checkNumber', :to => 'player#checkNumber', :via => :post 
+  get 'player/checkNumber', :to => 'player#checkNumber', :as=> 'checkNumber', :via => :post 
+
+  get 'player/reach', :to => 'player#reach', :via =>:post
+
+  get 'player/bingo', :to => 'player#bingo', :via =>:post
+
+  get 'player/new', :to => 'player#new', :as => :new
+
+  post 'player/create', :to => 'player#create'
+
+  get 'player/show', :to => 'player#show'
 
   root 'welcome#index'
 
@@ -24,7 +34,7 @@ Rails.application.routes.draw do
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
+     resources :players
 
   # Example resource route with options:
   #   resources :products do

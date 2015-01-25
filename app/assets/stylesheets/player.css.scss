@@ -8,7 +8,7 @@ td {
 input[type=submit]{
 	border: 0px;
 	background: transparent;
-	background-image : url(image-path('circle_icon.png'));
+	
 	width: 52px;
 	height: 52px;
 	background-repeat: no-repeat;
@@ -16,7 +16,29 @@ input[type=submit]{
 }
 
 form{
-	width : 55px;
-	height: 55px;
+	width : 52px;
+	height: 52px;
 	float: left;
+}
+.btn_create {
+	backgroundcolor : "red" ;
+}
+
+#error_explanation {
+  color: red;
+  ul {
+    color: red;
+    margin: 0 0 30px 0;
+  }
+}
+
+.field_with_errors {
+  @extend .has-error;
+  .form-control {
+    color: "red";
+  }
+}
+#free {
+	background-image: url('/assets/red_image.png');
+	background-size: 52px 52px;
 }
