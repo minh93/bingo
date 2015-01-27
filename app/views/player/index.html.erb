@@ -1,0 +1,27 @@
+<% if session[:player_name] %>
+  <h2>Welcome <strong style="color: green;"><%= session[:player_name] %></strong> ! Good luck !</h2>
+<% end %>
+<table>
+<% (0..4).each do |row| %>
+  <tr>
+  <% (0..4).each do |column| %>
+    <% if @card[row][column] != 0 %>
+      <td>
+      <%= form_tag({controller: "player", action: "check_number"}, remote:true, method: "get") do %>
+        <%= hidden_field_tag(:row, row) %>
+        <%= hidden_field_tag(:column, column) %>
+        <%= hidden_field_tag(:number, @card[row][column]) %>
+        <%= submit_tag(@card[row][column], id: "#{@card[row][column]}") %>
+      <% end %>
+      </td>  
+    <% else %>
+      <td id = "free"><%= @card[row][column] %></td>
+    <%end%>
+  <% end %>
+  </tr>
+<% end %>
+</table>
+
+<div id="response"></div>
+<%= button_to "", { action: "reach" }, { remote: true, method: "get", disabled: true, id: 'reach', onclick: "reachOnclick();"} %>
+<%= button_to "", { action: "bingo" }, { remote: true, method: "get", disabled: true, id: 'bingo', onclick: "bingoOnclick();" } %>

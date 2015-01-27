@@ -7,18 +7,18 @@ class DealController < ApplicationController
   	1.upto(75) do |number|
   	  @all_numbers << number
   	end
+    render layout: 'mylayout'
   end
 
   def add
   	@number = params[:number].to_i
   	@deal = Deal.create(number: @number)
-  	response_to do |format|
-  	  if @deal.save!
-  	    format.html { redirect_to @deal, notice: 'User was successfully created.' }
-        format.js   {}
+  	respond_to do |format|
+  	  if @deal.save
+  	    format.html { redirect_to @deal, notice: "Clicked"}
+        format.js {}
         format.json { render json: @deal, status: :created, location: @deal }
       else
-      	format.html { render action: "new" }
         format.json { render json: @deal.errors, status: :unprocessable_entity }
   	  end
   	end

@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-body {
+#index-cover {
 	background-image : url(image-path('background-bingo.jpg'));
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -10,7 +10,14 @@ body {
 	height: 100%;
 }
 
-a {
+#newgame-img {
 	float: left;
-	margin-left: 300px;
+	margin-left: 400px;
+	margin-top: 10px;
+	width : 400px;
+	height: 400px;
+}
+
+footer {
+	margin-bottom: 20px;
 }

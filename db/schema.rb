@@ -11,12 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150118065817) do
+ActiveRecord::Schema.define(version: 20150125020839) do
 
   create_table "deals", force: true do |t|
     t.integer  "number"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "players", force: true do |t|
+    t.string   "name"
+    t.boolean  "reach_status"
+    t.boolean  "bingo_status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "players", ["name"], name: "index_players_on_name", unique: true
 
 end
