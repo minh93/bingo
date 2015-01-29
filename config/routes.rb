@@ -16,6 +16,8 @@ Rails.application.routes.draw do
 
   get 'deal/add', :to => 'deal#add', :as => :add, :via => :post
 
+  post 'deal/update_event'
+
   get 'qrcode/index', :to => 'qrcode#index', :as => :qrcode
 
   get 'welcome/index'

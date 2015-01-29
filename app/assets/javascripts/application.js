@@ -17,3 +17,22 @@
 //= require myscript
 //= require_tree .
 
+function init(){
+	$.ajax({url: '/deal/update_event', type: 'POST', success: function(result){
+		var str = "";
+		for(var x in result){	
+			str += result[x]['name'] + "----" +result[x]['updated'];
+			if(result[x]['bingo']) 
+				str += "bingo!!! <br>";
+			if(!result[x]['bingo'] && result[x]['reach'])
+				str += "reach!!! <br>";
+		}
+		$("#log_event").html(str);
+	}});
+}
+
+function startTimer(){
+	setInterval("init()", 5000);
+}
+
+startTimer();

@@ -1,5 +1,5 @@
 class FixColumn < ActiveRecord::Migration
   def change
-  	rename_column :players, :colums, :column
+  	rename_column :players, :Colume, :column
   end
 end
