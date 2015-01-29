@@ -1,0 +1,24 @@
+function changeStyle(id){
+	var x = document.getElementById(id);
+	x.style.backgroundImage = "url(<%= image_path('circle_yellow.png') %>)";
+	x.style.width = "52px";
+	x.style.height = "52px";
+	x.style.border = "0px";
+	x.style.backgroundRepeat = "no-repeat";
+	x.style.textAlign = "center";
+}
+
+function changeBackground(element) {
+	element.style.backgroundImage = "url(<%= image_path('circle_yellow.png') %>)";
+	element.style.backgroundSize = "52px 52px";
+}
+
+function reachOnclick () {
+	document.getElementById("reach").value = '';
+	document.getElementById("reach").disabled = false;
+}
+
+function bingoOnclick () {
+	document.getElementById("bingo").value = '';
+	document.getElementById("bingo").disabled = false;
+}

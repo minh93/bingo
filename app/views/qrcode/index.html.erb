@@ -1,1 +1,8 @@
-<%= image_tag @qr %>
+<div class="col-lg-6 text-center">
+  <p id="qr-area">Please use your smartphone's qr-code-reader to access game<br><br>
+  <%= image_tag @qr %>
+  </p>
+</div>
+<div class="col-lg-6 text-center">
+    <%= link_to image_tag('start-button.jpg', id: "startgame-img"), deal_path %>
+</div>
