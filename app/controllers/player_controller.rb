@@ -3,22 +3,29 @@ class PlayerController < ApplicationController
   respond_to :html, :js
 
   def index
-    @@row = Array[0,0,1,0,0]
-    @@column = Array[0,0,1,0,0]  
-    @@diagonal = Array[1,1]
+    @row = Array[0,0,1,0,0]
+    @column = Array[0,0,1,0,0]  
+    @diagonal = Array[1,1]
     @card = Array.new(5) { Array.new(5) }
-    $i = 0
-    $j = 0
+    i = 0
+    j = 0
     random_number = 0
-    for $i in 0..4
-      for $j in 0..4
-        @card[$j][$i] = -1;
-        while check_existed_number_in_card(random_number = rand(15 * $i + 1..15 * $i + 15), $j, $i)
+    for i in 0..4
+      for j in 0..4
+        @card[j][i] = -1;
+        while check_existed_number_in_card(random_number = rand(15 * i + 1..15 * i + 15), j, i)
         end
-        @card[$j][$i] = random_number;
+        @card[j][i] = random_number;
       end 
     end
-    @card[2][2] = 0;
+    @card[2][2] = 0
+    @player = Player.find_by name: session[:player_name]
+    @player.card = [@card[0], @card[1], @card[2], @card[3], @card[4]]
+    @player.row = @row
+    @player.column = @column
+    @player.diagonal = @diagonal
+    @player.save
+
     render layout: 'mylayout'
   end
 
@@ -50,23 +57,25 @@ class PlayerController < ApplicationController
     row = params[:row].to_i
     column = params[:column].to_i
     @number = params[:number].to_s
-    if check_speaked_number(0,0) 
-      @@row[row] = @@row[row] + 1
-      @@column[column] = @@column[column] + 1
+    if check_speaked_number(params[:number].to_i)
+      @player = Player.find_by name: session[:player_name]
+      @player.row[row] = @player.row[row] + 1
+      @player.column[column] = @player.column[column]  +1
       if row == column
-        @@diagonal[0] = @@diagonal[0] + 1
+        @player.diagonal[0] = @player.diagonal[0] + 1
       end
       if (row + column) == 4
-        @@diagonal[1] = @@diagonal[1] + 1
+        @player.diagonal[1] = @player.diagonal[1] + 1
       end
-      if check_status(row,column) == "bingo"
+      @player.save
+      if @player.row[row] == 5 || @player.column[column] == 5 || ((row==column || (row+column)==4) && @player.diagonal[(row==column)? 0:1] == 5 )
         respond_to do |format|
           format.js { render action: "bingo" }
           format.json { render json: @number }
         end
         return
       end      
-      if check_status(row,column) == "reach"
+      if @player.row[row] == 4 || @player.column[column] == 4 || ((row==column || (row+column)==4) && @player.diagonal[(row==column)? 0:1] == 4)
         respond_to do |format|
           format.js { render action: "reach" }
           format.json { render json: @number }
@@ -84,51 +93,36 @@ class PlayerController < ApplicationController
     end 
   end
 
-  def check_speaked_number(row, column)
-    return true
+=begin
+  
+//To do
+  
+=end
+  def check_speaked_number(number)
+   if Deal.exists?(:number => number)
+      return true
+    else
+      return false
+    end 
   end
-
-  def check_status(row, column)
-    row_num_count = @@row[row]
-    col_num_count = @@column[column]
-    row_status = check_status_row_col(row_num_count)
-    col_status = check_status_row_col(col_num_count)
-    diagonal_status = check_status_diagonal(row,column)
-    if row_status == "bingo" || col_status == "bingo" || diagonal_status == "bingo"
-      return "bingo"
-    elsif row_status == "reach" || col_status == "reach" || diagonal_status == "reach"
-      return "reach"
-    end
-  end
-
-  def check_status_row_col(count)
-    case count
-    when 4
-      return "reach"
-    when 5
-      return "bingo"
-    end
-  end
-
-  def check_status_diagonal(row,column)
-    count = @@diagonal[row == column ? 0 : 1]
-    if row == column || row + column == 4
-      if count == 5
-        return "bingo"
-      elsif count == 4
-        return "reach"
-      end
-    end
-  end
-
+  
   def reach
-
+    @player = Player.find_by name: session[:player_name]
+    if @player.reach_status != true
+      @player.reach_status = true
+      @player.save
+    end
     respond_to do |format|
       format.js
     end
   end
 
   def bingo
+    @player = Player.find_by name: session[:player_name]
+    if @player.bingo_status != true
+      @player.bingo_status = true
+      @player.save
+    end
     respond_to do |format|
       format.js
     end

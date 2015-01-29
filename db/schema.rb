@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150125020839) do
+ActiveRecord::Schema.define(version: 20150129080029) do
 
   create_table "deals", force: true do |t|
     t.integer  "number"
@@ -25,6 +25,10 @@ ActiveRecord::Schema.define(version: 20150125020839) do
     t.boolean  "bingo_status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "card"
+    t.string   "row"
+    t.string   "column"
+    t.string   "diagonal"
   end
 
   add_index "players", ["name"], name: "index_players_on_name", unique: true

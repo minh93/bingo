@@ -7,7 +7,7 @@
   <% (0..4).each do |column| %>
     <% if @card[row][column] != 0 %>
       <td>
-      <%= form_tag({controller: "player", action: "check_number"}, remote:true, method: "get") do %>
+      <%= form_tag({controller: "player", action: "check_number", my_param: 'foo'}, remote:true, method: "get") do %>
         <%= hidden_field_tag(:row, row) %>
         <%= hidden_field_tag(:column, column) %>
         <%= hidden_field_tag(:number, @card[row][column]) %>

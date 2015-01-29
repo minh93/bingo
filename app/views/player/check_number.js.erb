@@ -2,3 +2,4 @@ var x = document.getElementById("<%= escape_javascript(render plain: @number) %>
 x.style.backgroundImage = "url(<%= image_path('circle_yellow.png') %>)"; 
 x.style.backgroundRepeat = "no-repeat"
 x.style.backgroundSize = "52px 52px";
+document.getElementById("response").innerHTML = "";
