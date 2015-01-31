@@ -41,6 +41,7 @@ class PlayerController < ApplicationController
 
   def login
     @player = Player.new
+    render layout: 'mylayout'
   end
 
   def add
