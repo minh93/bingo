@@ -45,7 +45,6 @@ class PlayerController < ApplicationController
   end
 
   def add
-    reset_session
     @player = Player.create(params.require(:player).permit(:name))
     if @player.save
       session[:player_name] = @player.name
@@ -70,14 +69,14 @@ class PlayerController < ApplicationController
         @player.diagonal[1] = @player.diagonal[1] + 1
       end
       @player.save
-      if @player.row[row] == 5 || @player.column[column] == 5 || ((row==column || (row+column)==4) && @player.diagonal[(row==column)? 0:1] == 5 )
+      if @player.row[row] == 5 || @player.column[column] == 5 || ((row == column || (row + column) == 4) && @player.diagonal[(row == column) ? 0 : 1] == 5 )
         respond_to do |format|
           format.js { render action: "bingo" }
           format.json { render json: @number }
         end
         return
       end      
-      if @player.row[row] == 4 || @player.column[column] == 4 || ((row==column || (row+column)==4) && @player.diagonal[(row==column)? 0:1] == 4)
+      if @player.row[row] == 4 || @player.column[column] == 4 || ((row == column || (row + column) == 4) && @player.diagonal[(row == column) ? 0 : 1] == 4)
         respond_to do |format|
           format.js { render action: "reach" }
           format.json { render json: @number }

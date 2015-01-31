@@ -21,11 +21,11 @@ function init(){
 	$.ajax({url: '/deal/update_event', type: 'POST', success: function(result){
 		var str = "";
 		for(var x in result){	
-			str += result[x]['name'] + "----" +result[x]['updated'];
+			str += result[x]['name'] + "----" +result[x]['updated'] + "----";
 			if(result[x]['bingo']) 
-				str += "bingo!!! <br>";
+				str += "BINGO!!! <br>";
 			if(!result[x]['bingo'] && result[x]['reach'])
-				str += "reach!!! <br>";
+				str += "REACH!!! <br>";
 		}
 		$("#log_event").html(str);
 	}});
