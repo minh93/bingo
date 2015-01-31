@@ -5,7 +5,7 @@ class DealController < ApplicationController
   def index
   	@all_numbers = Array.new
   	@host = request.host_with_port
-    @qr = RQRCode::QRCode.new(@host + '/player/login', :size => 14, :level => :l).to_img.resize(100, 100).to_data_url
+    @qr = RQRCode::QRCode.new(@host + '/player/login', :level => :l).to_img.resize(100, 100).to_data_url
   	1.upto(75) do |number|
   	  @all_numbers << number
   	end

@@ -31,6 +31,6 @@ ActiveRecord::Schema.define(version: 20150129080029) do
     t.string   "diagonal"
   end
 
-  add_index "players", ["name"], name: "index_players_on_name", unique: true
+  add_index "players", ["name"], name: "index_players_on_name", unique: true, using: :btree
 
 end
