@@ -44,6 +44,7 @@ class PlayerController < ApplicationController
   end
 
   def add
+    reset_session
     @player = Player.create(params.require(:player).permit(:name))
     if @player.save
       session[:player_name] = @player.name
@@ -60,7 +61,7 @@ class PlayerController < ApplicationController
     if check_speaked_number(params[:number].to_i)
       @player = Player.find_by name: session[:player_name]
       @player.row[row] = @player.row[row] + 1
-      @player.column[column] = @player.column[column]  +1
+      @player.column[column] = @player.column[column]  + 1
       if row == column
         @player.diagonal[0] = @player.diagonal[0] + 1
       end
