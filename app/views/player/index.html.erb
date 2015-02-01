@@ -1,8 +1,8 @@
 <% if session[:player_name] %>
 <div style="text-align: center;">
   <h2>Good luck!!! <strong style="color: green;"><%= session[:player_name] %></strong> !</h2>
-
-  <table class="table table-hover table-condensed">
+  <div class="table-responsive">
+  <table class="table table-hover table-bordered table-condensed">
   <% (0..4).each do |row| %>
     <tr>
     <% (0..4).each do |column| %>
@@ -22,6 +22,7 @@
     </tr>
   <% end %>
   </table>
+  </div>
 
   <div id="response"></div>
   
