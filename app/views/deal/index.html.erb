@@ -1,5 +1,6 @@
-<div class="col-lg-8">
+<div class="col-lg-8 text-center">
 <div id="all-number" class="text-center">
+<h4>Choose number to speak</h4>
 <% 0.upto(74) do |i| %>
   <%= form_tag({controller: "deal", action: "add"}, remote: true, method: "get", id: "form-number") do %>
     <%= hidden_field_tag(:number, @all_numbers[i]) %>
@@ -9,9 +10,7 @@
 </div>
 <p id="qr-area">
   <h4>Please use your smartphone's qr-code-reader to access game</h4>
-  <div id='div-qr'>
     <%= image_tag @qr %>
-  </div>
 </p>
 </div>
 
