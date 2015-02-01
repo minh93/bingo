@@ -1,16 +1,18 @@
 <div class="col-lg-8">
 <div id="all-number" class="text-center">
 <% 0.upto(74) do |i| %>
-  <%= form_tag({controller: "deal", action: "add"}, remote: true, method: "get", id: "form-#{i}") do%>
+  <%= form_tag({controller: "deal", action: "add"}, remote: true, method: "get", id: "form-number") do %>
     <%= hidden_field_tag(:number, @all_numbers[i]) %>
-    <%= submit_tag(@all_numbers[i], id: "btn-number-#{i}", onclick: "changeStyle(this.id);") %>
+    <%= submit_tag(@all_numbers[i], id: "btn-number-#{i}", onclick: "changeStyle(this.id);", class: "btn-number") %>
   <% end %>
 <% end %>
-</div><br>
-<h5>Please use your smartphone's qr-code-reader to access game</h5>
-<div id='div-qr'>
-  <%= image_tag @qr %>
 </div>
+<p id="qr-area">
+  <h4>Please use your smartphone's qr-code-reader to access game</h4>
+  <div id='div-qr'>
+    <%= image_tag @qr %>
+  </div>
+</p>
 </div>
 
 <div class="col-lg-4">

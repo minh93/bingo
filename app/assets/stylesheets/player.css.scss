@@ -36,15 +36,19 @@
 }
 
 #free {
+  border: 0px;
+  background: transparent;
   background-image: url(image-path('circle_yellow.png'));
   background-repeat: no-repeat;
   text-align: center;
-  background-size: 52px 52px;
+  width: 52px;
+  height: 52px;
 }
 
-#reach, #bingo {
-  background-image: url(image-path('red_image.png'));
-  background-repeat: no-repeat;
-  text-align: center;
-  background-size: 52px 52px;
+#player_name{
+  width: 100%;
+}
+
+#form-login{
+  width: 100%;
 }
