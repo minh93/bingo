@@ -12,6 +12,31 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require twitter/bootstrap
 //= require turbolinks
+//= require myscript
 //= require_tree .
+<<<<<<< HEAD
 //= require custom.js
+=======
+
+function init(){
+	$.ajax({url: '/deal/update_event', type: 'POST', success: function(result){
+		var str = "";
+		for(var x in result){	
+			str += result[x]['name'] + "----" +result[x]['updated'] + "----";
+			if(result[x]['bingo']) 
+				str += "BINGO!!! <br>";
+			if(!result[x]['bingo'] && result[x]['reach'])
+				str += "REACH!!! <br>";
+		}
+		$("#log_event").html(str);
+	}});
+}
+
+function startTimer(){
+	setInterval("init()", 5000);
+}
+
+startTimer();
+>>>>>>> 91c8f6a49e2723a5dd087a169d44fdc30bbdc486

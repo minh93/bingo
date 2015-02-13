@@ -1,4 +1,17 @@
+<<<<<<< HEAD
 document.getElementById("<%= escape_javascript(render plain: @number) %>").style.backgroundImage = "url('/assets/red_image.png')"; 
 document.getElementById("<%= escape_javascript(render plain: @number) %>").style.backgroundSize = "52px 52px";
 document.getElementById("bingo").value = 'bingo';
 document.getElementById("bingo").disabled = false;
+=======
+var btnNumber = document.getElementById("<%= escape_javascript(render plain: @number) %>");
+btnNumber.style.backgroundImage = "url(<%= image_path('circle_yellow.png') %>)"; 
+btnNumber.style.backgroundSize = "52px 52px";
+btnNumber.style.textAlign = "center";
+btnNumber.style.backgroundRepeat = "no-repeat";
+
+var btnBingo = document.getElementById("bingo");
+btnBingo.disabled = false;
+
+document.getElementById("response").innerHTML = "";
+>>>>>>> 91c8f6a49e2723a5dd087a169d44fdc30bbdc486

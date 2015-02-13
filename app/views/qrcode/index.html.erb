@@ -1,2 +1,16 @@
+<<<<<<< HEAD
 <%= image_tag @qr %>
 <%= link_to 'Start', game_path %>
+=======
+<div class="col-lg-6 text-center">
+  <p id="qr-area"><h4>Please use your smartphone's qr-code-reader to access game</h4><br><br>
+  <%= image_tag @qr %>
+  </p>
+</div>
+<div class="col-lg-6 text-center">
+  <p id="qr-area">
+	<h4>Click here to start dealing game</h4><br><br>
+    <%= link_to "Start", deal_path, {class: "btn btn-success btn-lg" , id: "startgame-btn"} %>
+  </p>
+</div>
+>>>>>>> 91c8f6a49e2723a5dd087a169d44fdc30bbdc486

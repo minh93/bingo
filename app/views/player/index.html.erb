@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <table>
 <% (0..4).each do |row| %>
 					<tr>
@@ -21,3 +22,41 @@
  %>
 <%= button_to "",  { action: "bingo" }, { :remote => true,:method => "get", :disabled => true , :id => 'bingo', :onclick => "bingoOnclick();" } 
  %>
+=======
+<% if session[:player_name] %>
+<div style="text-align: center;">
+  <h2>Good luck!!! <strong style="color: green;"><%= session[:player_name] %></strong> !</h2>
+  <div class="table-responsive">
+  <table class="table table-hover table-bordered table-condensed">
+  <% (0..4).each do |row| %>
+    <tr>
+    <% (0..4).each do |column| %>
+      <% if @card[row][column] != 0 %>
+        <td>
+        <%= form_tag({controller: "player", action: "check_number"}, remote: true, method: "get", id: "form-number") do %>
+          <%= hidden_field_tag(:row, row) %>
+          <%= hidden_field_tag(:column, column) %>
+          <%= hidden_field_tag(:number, @card[row][column]) %>
+          <%= submit_tag(@card[row][column], id: "#{@card[row][column]}", class: "btn-number") %>
+        <% end %>
+        </td>  
+      <% else %>
+        <td><div id="form-number"><button id = "free">FREE</button></div></td>
+      <%end%>
+    <% end %>
+    </tr>
+  <% end %>
+  </table>
+  </div>
+
+  <div id="response"></div>
+  
+  <%= button_to "REACH", { action: "reach" }, { remote: true, method: "get", disabled: true, class: "btn btn-primary btn-lg btn-block", id: 'reach', onclick: "reachOnclick();"} %><br>
+  <%= button_to "BINGO", { action: "bingo" }, { remote: true, method: "get", disabled: true, class: "btn btn-primary btn-lg btn-block", id: 'bingo', onclick: "bingoOnclick();" } %>
+</div>
+<% else %>
+  <script type="text/javascript">
+    window.location.href="/player/login";
+  </script>
+<% end %>
+>>>>>>> 91c8f6a49e2723a5dd087a169d44fdc30bbdc486

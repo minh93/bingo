@@ -1,7 +1,29 @@
+<<<<<<< HEAD
 Rails.application.routes.draw do  
   get 'player/index', :to => 'player#index', :as => :player
 
   get 'game/index', :to => 'game#index', :as => :game
+=======
+Rails.application.routes.draw do
+
+  get 'player/index', :to => 'player#index', :as => :player
+
+  get 'player/check_number', :to => 'player#check_number', :as => :check_number, :via => :post
+
+  get 'player/login', :to => 'player#login', :as => :login
+
+  post 'player/add', :to => 'player#add'
+
+  get 'player/reach', :to => 'player#reach', :via =>:post
+
+  get 'player/bingo', :to => 'player#bingo', :via =>:post
+
+  get 'deal/index', :to => 'deal#index', :as => :deal
+
+  get 'deal/add', :to => 'deal#add', :as => :add, :via => :post
+
+  post 'deal/update_event'
+>>>>>>> 91c8f6a49e2723a5dd087a169d44fdc30bbdc486
 
   get 'qrcode/index', :to => 'qrcode#index', :as => :qrcode
 

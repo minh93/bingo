@@ -1,20 +1,4 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
-<html>
-<head>
-  <title>Bingo</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-<% flash.each do |message_type, message| %>
-        <div class="alert alert-<%= message_type %>"><%= message %></div>
-      <% end %>
-<%= yield %>
-
-</body>
-=======
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -53,7 +37,7 @@
     <%= javascript_include_tag "application" %>
 
   </head>
-  <body id="index-cover">
+  <body>
     
     <div class="container">
       <div class="row">  
@@ -64,5 +48,4 @@
     </div> <!-- /container -->
 
   </body>
->>>>>>> 91c8f6a49e2723a5dd087a169d44fdc30bbdc486
 </html>

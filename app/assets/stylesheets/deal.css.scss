@@ -1,0 +1,32 @@
+// Place all the styles related to the deal controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.btn-number{
+	border: 0px;
+	background: transparent;
+	background-image : url(image-path('circle_icon.png'));
+	width: 52px;
+	height: 52px;
+	background-repeat: no-repeat;
+	text-align: center;
+}
+
+#form-number{
+	width : 55px;
+	height: 55px;
+	float: left;
+}
+
+#div-qr{
+	margin-left: 10px;
+	margin-top: 10px;
+	float: left;
+}
+
+#all-number{
+	width : 100%;
+	float: left;
+	margin-top: 20px;
+	margin-bottom: 25px;
+}
+

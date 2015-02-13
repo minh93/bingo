@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 table {
 	border : 1px solid black;
 }
@@ -41,4 +42,59 @@ form{
 #free {
 	background-image: url('/assets/red_image.png');
 	background-size: 52px 52px;
+=======
+// Place all the styles related to the player controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#notice {
+  color: green;
+}
+
+.field_with_errors {
+  padding: 2px;
+  background-color: #057505;
+  display: table;
+}
+
+#error_explanation {
+  width: 450px;
+  border: 2px solid #057505;
+  padding: 7px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+  h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px;
+    margin-bottom: 0px;
+    background-color: #c00;
+    color: #fff;
+  }
+  ul li {
+    font-size: 12px;
+    list-style: square;
+  }
+}
+
+#free {
+  border: 0px;
+  background: transparent;
+  background-image: url(image-path('circle_yellow.png'));
+  background-repeat: no-repeat;
+  text-align: center;
+  width: 52px;
+  height: 52px;
+}
+
+#player_name{
+  width: 100%;
+}
+
+#form-login{
+  width: 100%;
+>>>>>>> 91c8f6a49e2723a5dd087a169d44fdc30bbdc486
 }
