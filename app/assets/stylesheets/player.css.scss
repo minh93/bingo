@@ -1,3 +1,48 @@
+<<<<<<< HEAD
+table {
+	border : 1px solid black;
+}
+td {
+	text-align: center;
+	border : 1px solid black;
+}
+input[type=submit]{
+	border: 0px;
+	background: transparent;
+	
+	width: 52px;
+	height: 52px;
+	background-repeat: no-repeat;
+	text-align: center;
+}
+
+form{
+	width : 52px;
+	height: 52px;
+	float: left;
+}
+.btn_create {
+	backgroundcolor : "red" ;
+}
+
+#error_explanation {
+  color: red;
+  ul {
+    color: red;
+    margin: 0 0 30px 0;
+  }
+}
+
+.field_with_errors {
+  @extend .has-error;
+  .form-control {
+    color: "red";
+  }
+}
+#free {
+	background-image: url('/assets/red_image.png');
+	background-size: 52px 52px;
+=======
 // Place all the styles related to the player controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
@@ -36,15 +81,20 @@
 }
 
 #free {
+  border: 0px;
+  background: transparent;
   background-image: url(image-path('circle_yellow.png'));
   background-repeat: no-repeat;
   text-align: center;
-  background-size: 52px 52px;
+  width: 52px;
+  height: 52px;
 }
 
-#reach, #bingo {
-  background-image: url(image-path('red_image.png'));
-  background-repeat: no-repeat;
-  text-align: center;
-  background-size: 52px 52px;
+#player_name{
+  width: 100%;
+}
+
+#form-login{
+  width: 100%;
+>>>>>>> 91c8f6a49e2723a5dd087a169d44fdc30bbdc486
 }

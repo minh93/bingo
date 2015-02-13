@@ -1,6 +1,12 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+<<<<<<< HEAD
+  name: MyText
+
+two:
+  name: MyText
+=======
   name: MyString
   reach_status: false
   bingo_status: false
@@ -9,3 +15,4 @@ two:
   name: MyString
   reach_status: false
   bingo_status: false
+>>>>>>> 91c8f6a49e2723a5dd087a169d44fdc30bbdc486

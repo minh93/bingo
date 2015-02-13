@@ -11,14 +11,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
+ActiveRecord::Schema.define(version: 20150122091502) do
+
+  create_table "players", force: true do |t|
+    t.text     "name"
+=======
 ActiveRecord::Schema.define(version: 20150129080029) do
 
   create_table "deals", force: true do |t|
     t.integer  "number"
+>>>>>>> 91c8f6a49e2723a5dd087a169d44fdc30bbdc486
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD
+  create_table "tasks", force: true do |t|
+    t.string   "title"
+    t.boolean  "is_done"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+=======
   create_table "players", force: true do |t|
     t.string   "name"
     t.boolean  "reach_status"
@@ -31,6 +47,7 @@ ActiveRecord::Schema.define(version: 20150129080029) do
     t.string   "diagonal"
   end
 
-  add_index "players", ["name"], name: "index_players_on_name", unique: true
+  add_index "players", ["name"], name: "index_players_on_name", unique: true, using: :btree
 
+>>>>>>> 91c8f6a49e2723a5dd087a169d44fdc30bbdc486
 end
