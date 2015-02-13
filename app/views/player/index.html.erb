@@ -25,7 +25,7 @@
   </div>
 
   <div id="response"></div>
-  
+  <audio id="sound" src="/assets/bingo.wav" preload="auto"></audio>
   <%= button_to "REACH", { action: "reach" }, { remote: true, method: "get", disabled: true, class: "btn btn-primary btn-lg btn-block", id: 'reach', onclick: "reachOnclick();"} %><br>
   <%= button_to "BINGO", { action: "bingo" }, { remote: true, method: "get", disabled: true, class: "btn btn-primary btn-lg btn-block", id: 'bingo', onclick: "bingoOnclick();" } %>
 </div>
