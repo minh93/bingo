@@ -14,7 +14,7 @@ class DealController < ApplicationController
   end
 
   def update_event
-    @player_list = Player.where("reach_status = ? OR bingo_status = ? ",true,true).order("updated_at ASC");
+    @player_list = Player.where("reach_status = ? OR bingo_status = ? ",true,true);
     @response = Array.new
     @player_list.each do |element| 
       @response << {:name => element.name, :updated => element.updated_at, :reach => element.reach_status, :bingo => element.bingo_status}
