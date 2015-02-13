@@ -29,6 +29,12 @@
   <%= button_to "REACH", { action: "reach" }, { remote: true, method: "get", disabled: true, class: "btn btn-primary btn-lg btn-block", id: 'reach', onclick: "reachOnclick();"} %><br>
   <%= button_to "BINGO", { action: "bingo" }, { remote: true, method: "get", disabled: true, class: "btn btn-primary btn-lg btn-block", id: 'bingo', onclick: "bingoOnclick();" } %>
 </div>
+<div><h5>Dealer speaked number</h5></div><br>
+<div id="speaked_number">
+<% @speaked_number.each do |element| %>
+  <%= element.number %>
+  <% end %>
+</div>
 <% else %>
   <script type="text/javascript">
     window.location.href="/player/login";

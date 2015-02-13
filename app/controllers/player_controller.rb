@@ -1,9 +1,10 @@
 class PlayerController < ApplicationController
 
   respond_to :html, :js
-
+  @@player_numbers = 100;
   def index
     @player = Player.find_by name: session[:player_name]
+    @speaked_number = Deal.all
     if @player.card == nil
       @row = Array[0,0,1,0,0]
       @column = Array[0,0,1,0,0]  
@@ -48,8 +49,13 @@ class PlayerController < ApplicationController
   end
 
   def login
-    @player = Player.new
-    render layout: 'mylayout'
+    if @@player_numbers >100
+      render 'loginfailed'
+    else
+      @@player_numbers = @@player_numbers + 1
+      @player = Player.new
+      render layout: 'mylayout'
+    end
   end
 
   def add
