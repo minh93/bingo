@@ -3,30 +3,38 @@ class PlayerController < ApplicationController
   respond_to :html, :js
 
   def index
-    @row = Array[0,0,1,0,0]
-    @column = Array[0,0,1,0,0]  
-    @diagonal = Array[1,1]
-    @card = Array.new(5) { Array.new(5) }
-    i = 0
-    j = 0
-    random_number = 0
-    for i in 0..4
-      for j in 0..4
-        @card[j][i] = -1;
-        while check_existed_number_in_card(random_number = rand(15 * i + 1..15 * i + 15), j, i)
-        end
-        @card[j][i] = random_number;
-      end 
-    end
-    @card[2][2] = 0
     @player = Player.find_by name: session[:player_name]
-    @player.card = [@card[0], @card[1], @card[2], @card[3], @card[4]]
-    @player.row = @row
-    @player.column = @column
-    @player.diagonal = @diagonal
-    @player.save
+    if @player.card == nil
+      @row = Array[0,0,1,0,0]
+      @column = Array[0,0,1,0,0]  
+      @diagonal = Array[1,1]
+      @card = Array.new(5) { Array.new(5) }
+      @card_status = Array.new(5) { Array.new(5) }
+      i = 0
+      j = 0
+      random_number = 0
+      for i in 0..4
+        for j in 0..4
+          @card[j][i] = -1;
+          while check_existed_number_in_card(random_number = rand(15 * i + 1..15 * i + 15), j, i)
+          end
+          @card[j][i] = random_number
+          @card_status[j][i] = 0
+        end 
+      end
+      @card[2][2] = 0
+      @player.card = @card
+      @player.card_status = @card_status
+      @player.row = @row
+      @player.column = @column
+      @player.diagonal = @diagonal
+      @player.save
 
-    render layout: 'mylayout'
+      render layout: 'mylayout'
+    else
+      @card = @player.card
+      @card_status = @player.card_status
+    end
   end
 
   def check_existed_number_in_card(number, j, i)
@@ -62,6 +70,7 @@ class PlayerController < ApplicationController
       @player = Player.find_by name: session[:player_name]
       @player.row[row] = @player.row[row] + 1
       @player.column[column] = @player.column[column]  + 1
+      @player.card_status[row][column] = 1
       if row == column
         @player.diagonal[0] = @player.diagonal[0] + 1
       end

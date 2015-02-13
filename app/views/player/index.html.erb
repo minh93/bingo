@@ -6,7 +6,7 @@
   <% (0..4).each do |row| %>
     <tr>
     <% (0..4).each do |column| %>
-      <% if @card[row][column] != 0 %>
+      <% if @card[row][column] != 0 && @card_status[row][column] == 0 %>
         <td>
         <%= form_tag({controller: "player", action: "check_number"}, remote: true, method: "get", id: "form-number") do %>
           <%= hidden_field_tag(:row, row) %>
@@ -16,7 +16,7 @@
         <% end %>
         </td>  
       <% else %>
-        <td><div id="form-number"><button id = "free">FREE</button></div></td>
+        <td><div id="form-number"><button id = "free"><%= @card[row][column] %></button></div></td>
       <%end%>
     <% end %>
     </tr>

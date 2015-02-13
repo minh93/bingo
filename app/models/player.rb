@@ -4,4 +4,5 @@ class Player < ActiveRecord::Base
   serialize :row
   serialize :column
   serialize :diagonal
+  serialize :card_status
 end
