@@ -1,0 +1,8 @@
+var random_area = document.getElementById("random_nums");
+var deal_area = document.getElementById("deal_num");
+var button_random = document.createElement("button");
+button_random.className = "btn-number-deal";
+var random_val = document.createTextNode("<%= escape_javascript(render plain: @deal.number) %>");
+button_random.appendChild(random_val);
+random_area.appendChild(button_random);
+deal_area.innerHTML = "<button class='btn-number-deal'><%= escape_javascript(render plain: @deal.number) %></button>";

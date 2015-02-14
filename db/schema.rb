@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150129080029) do
+ActiveRecord::Schema.define(version: 20150214030956) do
 
   create_table "deals", force: true do |t|
     t.integer  "number"
@@ -29,8 +29,9 @@ ActiveRecord::Schema.define(version: 20150129080029) do
     t.string   "row"
     t.string   "column"
     t.string   "diagonal"
+    t.string   "card_status"
   end
 
-  add_index "players", ["name"], name: "index_players_on_name", unique: true, using: :btree
+  add_index "players", ["name"], name: "index_players_on_name", unique: true
 
 end

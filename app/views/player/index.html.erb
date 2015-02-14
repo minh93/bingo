@@ -6,17 +6,25 @@
   <% (0..4).each do |row| %>
     <tr>
     <% (0..4).each do |column| %>
-      <% if @card[row][column] != 0 %>
-        <td>
+      <% if @card[row][column] != 0 && @card_status[row][column] == 0 %>
+        <td align="center">
         <%= form_tag({controller: "player", action: "check_number"}, remote: true, method: "get", id: "form-number") do %>
           <%= hidden_field_tag(:row, row) %>
           <%= hidden_field_tag(:column, column) %>
           <%= hidden_field_tag(:number, @card[row][column]) %>
-          <%= submit_tag(@card[row][column], id: "#{@card[row][column]}", class: "btn-number") %>
+          <%= submit_tag(@card[row][column], id: "#{@card[row][column]}", class: "btn-none-effect" ) %>
         <% end %>
-        </td>  
+        </td>
       <% else %>
-        <td><div id="form-number"><button id = "free">FREE</button></div></td>
+        <% if @card[row][column] == 0 %>
+          <td align="center">
+            <div id="form-number"><button id = "free">Free</button></div>
+          </td>
+        <% else %>
+          <td align="center">
+            <div id="form-number"><button id = "free"><%= @card[row][column] %></button></div>
+          </td>
+        <% end %>
       <%end%>
     <% end %>
     </tr>
@@ -25,9 +33,16 @@
   </div>
 
   <div id="response"></div>
-  
+  <audio id="sound" src="/assets/bingo.mp3" preload="auto"></audio>
   <%= button_to "REACH", { action: "reach" }, { remote: true, method: "get", disabled: true, class: "btn btn-primary btn-lg btn-block", id: 'reach', onclick: "reachOnclick();"} %><br>
+  <audio id="sound" src="/assets/reach.mp3" preload="auto"></audio>
   <%= button_to "BINGO", { action: "bingo" }, { remote: true, method: "get", disabled: true, class: "btn btn-primary btn-lg btn-block", id: 'bingo', onclick: "bingoOnclick();" } %>
+</div>
+<div><h5>Dealer speaked number</h5></div><br>
+<div id="speaked_number">
+<% @speaked_number.each do |element| %>
+  <%= element.number %>
+  <% end %>
 </div>
 <% else %>
   <script type="text/javascript">
