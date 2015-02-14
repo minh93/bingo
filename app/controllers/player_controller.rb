@@ -34,6 +34,8 @@ class PlayerController < ApplicationController
     else
       @card = @player.card
       @card_status = @player.card_status
+      @reach_status = @player.reach_status
+      @bingo_status = @player.bingo_status
       render layout: 'mylayout'
     end
   end

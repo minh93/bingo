@@ -33,10 +33,18 @@
   </div>
 
   <div id="response"></div>
-  <audio id="sound" src="/assets/bingo.mp3" preload="auto"></audio>
-  <%= button_to "REACH", { action: "reach" }, { remote: true, method: "get", disabled: true, class: "btn btn-primary btn-lg btn-block", id: 'reach', onclick: "reachOnclick();"} %><br>
-  <audio id="sound" src="/assets/reach.mp3" preload="auto"></audio>
-  <%= button_to "BINGO", { action: "bingo" }, { remote: true, method: "get", disabled: true, class: "btn btn-primary btn-lg btn-block", id: 'bingo', onclick: "bingoOnclick();" } %>
+  <audio id="sound_reach" src="/assets/reach.mp3" preload="auto"></audio>
+  <% if @reach_status == true %>
+     <%= button_to "REACH", { action: "reach" }, { remote: true, method: "get", disabled: false, class: "btn btn-primary btn-lg btn-block", id: 'reach', onclick: "reachOnclick();"} %><br>
+  <% else %>
+    <%= button_to "REACH", { action: "reach" }, { remote: true, method: "get", disabled: true, class: "btn btn-primary btn-lg btn-block", id: 'reach', onclick: "reachOnclick();"} %><br>
+  <% end %>
+  <audio id="sound_bingo" src="/assets/bingo.mp3" preload="auto"></audio>
+  <% if @bingo_status == true %>
+    <%= button_to "BINGO", { action: "bingo" }, { remote: true, method: "get", disabled: false, class: "btn btn-primary btn-lg btn-block", id: 'bingo', onclick: "bingoOnclick();" } %>
+  <% else %>
+    <%= button_to "BINGO", { action: "bingo" }, { remote: true, method: "get", disabled: true, class: "btn btn-primary btn-lg btn-block", id: 'bingo', onclick: "bingoOnclick();" } %>
+  <% end %>
 </div>
 <div><h5>Dealer speaked number</h5></div><br>
 <div id="speaked_number">
