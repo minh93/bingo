@@ -21,9 +21,9 @@ function init(){
 	$.ajax({url: '/deal/update_event', type: 'POST', success: function(result){
 		var str = "";
 		for(var x in result){	
-			str += result[x]['name'] + "----" +result[x]['updated'] + "----";
+			str += result[x]['name'] + "---" +result[x]['updated'] + "---";
 			if(result[x]['bingo']) 
-				str += "BINGO!!! <br>";
+				str += "<strong>BINGO!!! </strong><br>";
 			if(!result[x]['bingo'] && result[x]['reach'])
 				str += "REACH!!! <br>";
 		}
@@ -35,4 +35,19 @@ function startTimer(){
 	setInterval("init()", 5000);
 }
 
+function updateDealNumbers(){
+	$.ajax({url: '/player/update_deal_numbers', type: 'POST', success: function(result){
+		var str = "";
+		for(var x in result){	
+			str += result[x]['number'] + ", ";
+		}
+		$("#spoke_number").html(str);
+	}});
+}
+
+function startUpdateDeal(){
+	setInterval("updateDealNumbers()", 5000);
+}
+
 startTimer();
+startUpdateDeal();

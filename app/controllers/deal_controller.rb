@@ -16,20 +16,21 @@ class DealController < ApplicationController
     @player_list = Player.where("reach_status = ? OR bingo_status = ? ",true,true).order("updated_at ASC");
     @response = Array.new
     @player_list.each do |element| 
-      @response << {:name => element.name, :updated => element.updated_at, :reach => element.reach_status, :bingo => element.bingo_status}
+      timestamp = element.updated_at.strftime "%Y-%m-%d-%H:%m"
+      @response << {:name => element.name, :updated => timestamp, :reach => element.reach_status, :bingo => element.bingo_status}
     end
     respond_to do |format|
       format.json { render json: @response}
     end
   end
 
-  def new
+  def add
     while check_random_number_existed(deal_num = rand(1..75)) 
     end
     @deal = Deal.create(number: deal_num)
     respond_to do |format|
       if @deal.save
-        format.js { render action: "new" }
+        format.js { render action: "add" }
         format.json { render json: @deal }
       else
         format.json { render json: @deal.errors, status: :unprocessable_entity }

@@ -1,9 +1,8 @@
 class PlayerController < ApplicationController
-
   respond_to :html, :js
+
   def index
     @player = Player.find_by name: session[:player_name]
-    @speaked_number = Deal.all
     if @player.card == nil
       @row = Array[0,0,1,0,0]
       @column = Array[0,0,1,0,0]  
@@ -74,7 +73,7 @@ class PlayerController < ApplicationController
     row = params[:row].to_i
     column = params[:column].to_i
     @number = params[:number].to_s
-    if check_speaked_number(params[:number].to_i)
+    if check_spoke_number(params[:number].to_i)
       @player = Player.find_by name: session[:player_name]
       @player.row[row] = @player.row[row] + 1
       @player.column[column] = @player.column[column]  + 1
@@ -116,7 +115,7 @@ class PlayerController < ApplicationController
 //To do
   
 =end
-  def check_speaked_number(number)
+  def check_spoke_number(number)
    if Deal.exists?(:number => number)
       return true
     else
@@ -143,6 +142,17 @@ class PlayerController < ApplicationController
     end
     respond_to do |format|
       format.js
+    end
+  end
+
+  def update_deal_numbers
+    @deal_list = Deal.all
+    @response = Array.new
+    @deal_list.each do |element| 
+      @response << {:number => element.number}
+    end
+    respond_to do |format|
+      format.json { render json: @response}
     end
   end
 

@@ -12,11 +12,11 @@ Rails.application.routes.draw do
 
   get 'player/bingo', :to => 'player#bingo', :via =>:post
 
+  post 'player/update_deal_numbers'
+
   get 'deal/index', :to => 'deal#index', :as => :deal
 
-  get 'deal/add', :to => 'deal#add', :as => :add, :via => :post
-
-  post 'deal/new', :to => 'deal#new' , :as => :new
+  post 'deal/add', :to => 'deal#add' , :as => :add
 
   post 'deal/update_event'
 

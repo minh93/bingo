@@ -37,20 +37,17 @@
   <% if @reach_status == true %>
      <%= button_to "REACH", { action: "reach" }, { remote: true, method: "get", disabled: false, class: "btn btn-primary btn-lg btn-block", id: 'reach', onclick: "reachOnclick();"} %><br>
   <% else %>
-    <%= button_to "REACH", { action: "reach" }, { remote: true, method: "get", disabled: true, class: "btn btn-primary btn-lg btn-block", id: 'reach', onclick: "reachOnclick();"} %><br>
+    <%= button_to "REACH", { action: "reach" }, { remote: true, method: "get", disabled: true, class: "btn btn-default btn-lg btn-block", id: 'reach', onclick: "reachOnclick();"} %><br>
   <% end %>
   <audio id="sound_bingo" src="/assets/bingo.mp3" preload="auto"></audio>
   <% if @bingo_status == true %>
     <%= button_to "BINGO", { action: "bingo" }, { remote: true, method: "get", disabled: false, class: "btn btn-primary btn-lg btn-block", id: 'bingo', onclick: "bingoOnclick();" } %>
   <% else %>
-    <%= button_to "BINGO", { action: "bingo" }, { remote: true, method: "get", disabled: true, class: "btn btn-primary btn-lg btn-block", id: 'bingo', onclick: "bingoOnclick();" } %>
+    <%= button_to "BINGO", { action: "bingo" }, { remote: true, method: "get", disabled: true, class: "btn btn-default btn-lg btn-block", id: 'bingo', onclick: "bingoOnclick();" } %>
   <% end %>
 </div>
-<div><h5>Dealer speaked number</h5></div><br>
-<div id="speaked_number">
-<% @speaked_number.each do |element| %>
-  <%= element.number %>
-  <% end %>
+<h5>Dealer spoke number: </h5>
+<div id="spoke_number">
 </div>
 <% else %>
   <script type="text/javascript">
