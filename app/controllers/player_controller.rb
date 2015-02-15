@@ -65,8 +65,7 @@ class PlayerController < ApplicationController
       session[:player_name] = @player.name
       redirect_to '/player/index'
     else
-      render 'login'
-      render layout: 'mylayout'
+      render 'login', layout: 'mylayout'
     end
   end
 
