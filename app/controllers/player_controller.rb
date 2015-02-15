@@ -66,6 +66,7 @@ class PlayerController < ApplicationController
       redirect_to '/player/index'
     else
       render 'login'
+      render layout: 'mylayout'
     end
   end
 

@@ -45,9 +45,9 @@
   <% else %>
     <%= button_to "BINGO", { action: "bingo" }, { remote: true, method: "get", disabled: true, class: "btn btn-default btn-lg btn-block", id: 'bingo', onclick: "bingoOnclick();" } %>
   <% end %>
-</div>
-<h5>Dealer spoke number: </h5>
-<div id="spoke_number">
+  <h5>Dealer spoke number: </h5>
+  <div id="spoke_number">
+  </div>
 </div>
 <% else %>
   <script type="text/javascript">
