@@ -3,12 +3,14 @@ require 'rqrcode_png'
 class DealController < ApplicationController
 	
   def index
-  	@dealed_numbers = Array.new
   	@host = request.host_with_port
-    @qr = RQRCode::QRCode.new(@host + '/player/login', :level => :l).to_img.resize(200, 200).to_data_url
-    db_numbers = Deal.all
-    db_numbers.each {|element| @dealed_numbers << element.number}
-    @current_number = Deal.last
+    @qr = RQRCode::QRCode.new(@host + "/player/login?id=#{session[:deal_id]}", :level => :l).to_img.resize(200, 200).to_data_url
+    @game_session = Deal.find(session[:deal_id])
+    @db_numbers = @game_session.deal
+    @dealed_numbers = @db_numbers
+    unless @db_numbers.empty?
+      @current_number = @db_numbers.last
+    end
     render layout: 'mylayout'
   end
 
@@ -25,9 +27,14 @@ class DealController < ApplicationController
   end
 
   def add
-    while check_random_number_existed(deal_num = rand(1..75)) 
+    @deal = Deal.find(session[:deal_id])
+    @deal_list = @deal.deal
+    while check_random_number_existed(@deal_list, deal_num = rand(1..75))
+      if @deal_list.length == 75
+        break
+      end
     end
-    @deal = Deal.create(number: deal_num)
+    @deal.deal << deal_num
     respond_to do |format|
       if @deal.save
         format.js { render action: "add" }
@@ -38,12 +45,7 @@ class DealController < ApplicationController
     end
   end
 
-  def check_random_number_existed(random)
-    num = Deal.find_by number: random
-    if num == nil
-      return false
-    else
-      return true
-    end
+  def check_random_number_existed(list, random)
+    return list.include? random
   end
 end

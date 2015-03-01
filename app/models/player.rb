@@ -5,4 +5,6 @@ class Player < ActiveRecord::Base
   serialize :column
   serialize :diagonal
   serialize :card_status
+
+  belongs_to :deal
 end
