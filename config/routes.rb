@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
   get 'qrcode/index', :to => 'qrcode#index', :as => :qrcode
 
-  get 'welcome/index'
+  #get 'welcome/index'
 
   root 'welcome#index'
 

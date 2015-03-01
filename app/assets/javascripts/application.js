@@ -39,7 +39,7 @@ function updateDealNumbers(){
 	$.ajax({url: '/player/update_deal_numbers', type: 'POST', success: function(result){
 		var str = "";
 		for(var x in result){	
-			str += result[x]['number'] + ", ";
+			str += result[x] + ", ";
 		}
 		$("#spoke_number").html(str);
 	}});

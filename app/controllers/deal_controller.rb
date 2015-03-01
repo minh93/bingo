@@ -29,20 +29,21 @@ class DealController < ApplicationController
   def add
     @deal = Deal.find(session[:deal_id])
     @deal_list = @deal.deal
-    while check_random_number_existed(@deal_list, deal_num = rand(1..75))
-      if @deal_list.length == 75
-        break
+    if (@deal_list.length < 75)
+      while check_random_number_existed(@deal_list, deal_num = rand(1..75))
       end
-    end
-    @deal.deal << deal_num
-    respond_to do |format|
-      if @deal.save
-        format.js { render action: "add" }
-        format.json { render json: @deal }
-      else
-        format.json { render json: @deal.errors, status: :unprocessable_entity }
+      @deal.deal << deal_num
+      respond_to do |format|
+        if @deal.save
+          format.js { render action: "add" }
+          format.json { render json: @deal }       
+        end
       end
-    end
+    else
+      respond_to do |format|
+        format.js { render action: "end"}
+      end
+    end   
   end
 
   def check_random_number_existed(list, random)

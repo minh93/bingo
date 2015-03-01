@@ -3,7 +3,7 @@ class PlayerController < ApplicationController
 
   def index
     #@player = Player.find_by name: session[:player_name]
-    @player = Player.join(:deals).where( players: { name: session[:player_name] })
+    @player = Player.joins(:deal).where( players: { deal_id: session[:game_id] , name: session[:player_name] }).first
     if @player.card == nil
       @row = Array[0,0,1,0,0]
       @column = Array[0,0,1,0,0]  
@@ -51,7 +51,7 @@ class PlayerController < ApplicationController
   end
 
   def login
-    @deal_id = params[:id]
+    session[:game_id] = params[:id]
     @player_numbers = Player.count
     if @player_numbers >= 100
       render 'login_max_out'
@@ -62,10 +62,10 @@ class PlayerController < ApplicationController
   end
 
   def add
-    @game_session = Deal.find(@deal_id)
-    @game_session.players.create(name: params[:name])
-    #@player = Player.create(deal_id: @deal_id, name: params[:name])
-    #@player.build_deal(deal_id: @deal_id)
+    @game_session = Deal.find(session[:game_id])
+    @player = @game_session.players.create(name: params[:player][:name])
+    #@player = Player.create(deal_id: session[:game_id], name: params[:name])
+    #@player.build_deal(deal_id: session[:game_id])
     if @player.save
       session[:player_name] = @player.name
       redirect_to '/player/index'
@@ -80,7 +80,7 @@ class PlayerController < ApplicationController
     @number = params[:number].to_s
     if check_spoke_number(params[:number].to_i)
       #@player = Player.find_by name: session[:player_name]
-      @player = Player.join(:deals).where( players: { name: session[:player_name] })
+      @player = Player.joins(:deal).where( players: { deal_id: session[:game_id], name: session[:player_name] }).first
       @player.row[row] = @player.row[row] + 1
       @player.column[column] = @player.column[column]  + 1
       @player.card_status[row][column] = 1
@@ -122,7 +122,9 @@ class PlayerController < ApplicationController
   
 =end
   def check_spoke_number(number)
-   if Deal.exists?(:number => number)
+    @game_session = Deal.find(session[:game_id])
+    deal_list = @game_session.deal
+    if deal_list.include? number
       return true
     else
       return false
@@ -131,7 +133,7 @@ class PlayerController < ApplicationController
   
   def reach
     #@player = Player.find_by name: session[:player_name]
-    @player = Player.join(:deals).where( players: { name: session[:player_name] })
+    @player = Player.joins(:deal).where( players: { deal_id: session[:game_id], name: session[:player_name] }).first
     if @player.reach_status != true
       @player.reach_status = true
       @player.save
@@ -143,7 +145,7 @@ class PlayerController < ApplicationController
 
   def bingo
     #@player = Player.find_by name: session[:player_name]
-    @player = Player.join(:deals).where( players: { name: session[:player_name] })
+    @player = Player.joins(:deal).where( players: { deal_id: session[:game_id], name: session[:player_name] }).first
     if @player.bingo_status != true
       @player.bingo_status = true
       @player.save
@@ -154,13 +156,16 @@ class PlayerController < ApplicationController
   end
 
   def update_deal_numbers
-    unless @deal_id.nil?
-      @game_session = Deal.find(@deal_id)
+    unless session[:game_id].nil?
+      @game_session = Deal.find(session[:game_id])
       @response = @game_session.deal
     end
     respond_to do |format|
       format.json { render json: @response}
     end
   end
-
+  private 
+  def player_params
+    params.require(:player).permit(:name)
+  end
 end

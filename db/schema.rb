@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150225042938) do
+ActiveRecord::Schema.define(version: 20150301082131) do
 
   create_table "deals", force: true do |t|
     t.string   "deal"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20150225042938) do
     t.string   "column"
     t.string   "diagonal"
     t.string   "card_status"
+    t.integer  "deal_id"
   end
 
   add_index "players", ["name"], name: "index_players_on_name", unique: true
