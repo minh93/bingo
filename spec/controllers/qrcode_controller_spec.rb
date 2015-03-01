@@ -8,10 +8,9 @@ RSpec.describe QrcodeController, :type => :controller do
 
   describe "Test QrcodeController methods" do
 
-  	it "reset database success" do 
+  	it "create new game session" do 
   	  get :index
-  	  expect(Deal.count).to eq 0
-  	  expect(Player.count).to eq 0
+  	  expect(session[:deal_id]).not_to eq nil
   	end
   end
 

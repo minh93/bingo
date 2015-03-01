@@ -1,9 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Player, :type => :model do
+  before do
+    @deal = Deal.create(deal: Array.new)
+  end
   it "save success" do
-  	player_1 = Player.create(name: 'kienphan')
-  	player_2 = Player.create(name: 'tuananh')
+  	player_1 = @deal.players.create(name: 'tuananh')
+    player_2 = @deal.players.create(name: 'kienphan')
   	expect(Player.all).to eq [player_1, player_2]
   end
 
@@ -12,33 +15,36 @@ RSpec.describe Player, :type => :model do
   end
 
   it "has one after adding one" do
-    Player.create(name: 'kienphan')
+    @deal.players.create(name: 'kienphan')
     expect(Player.count).to eq 1
   end
 
   it "if player's name is blank" do
-  	player = Player.new(name: '')
+  	player = @deal.players.create(name: '')
   	player.valid?
   	expect(player.errors[:name]).to include "can't be blank"
   end
 
   it "if input name is existed in db" do
-  	Player.create(name: 'kien')
-  	player = Player.create(name: 'kien')
+  	@deal.players.create(name: 'kien')
+  	player = @deal.players.create(name: 'kien')
   	player.valid?
   	expect(player.errors[:name]).to include "has already been taken"
   end
 
   it "find user by name" do
-  	player_1 = Player.create(name: 'kienphan')
-  	player_2 = Player.create(name: 'tuananh')
-  	player_3 = Player.create(name: 'kien')
-  	player_4 = Player.create(name: 'tuan_anh')
-  	player_5 = Player.create(name: 'kien_phan')
-  	player_6 = Player.create(name: 'tuan-anh')
-	result = Player.find_by name: 'kien'
+  	@deal.players.create(name: 'kienphan')
+  	@deal.players.create(name: 'tuananh')
+  	@deal.players.create(name: 'kien')
+  	@deal.players.create(name: 'tuan_anh')
+  	@deal.players.create(name: 'kien_phan')
+  	@deal.players.create(name: 'tuan-anh')
+	  result = Player.joins(:deal).where( players: { deal_id: @deal.id, name: 'kien' }).first
   	expect(result.name).to eq 'kien'
   end
 
-  after(:all) { Player.destroy_all }
+  after(:all) { 
+    Player.destroy_all
+    Deal.destroy_all
+  }
 end
