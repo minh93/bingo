@@ -15,7 +15,7 @@ class DealController < ApplicationController
   end
 
   def update_event
-    @player_list = Player.where("reach_status = ? OR bingo_status = ? ",true,true).order("updated_at ASC");
+    @player_list = Player.where("deal_id = ? AND (reach_status = ? OR bingo_status = ?) ", session[:game_id], true, true).order("updated_at ASC");
     @response = Array.new
     @player_list.each do |element| 
       timestamp = element.updated_at.strftime "%Y-%m-%d-%H:%m"
