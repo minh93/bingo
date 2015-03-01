@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150301082131) do
+ActiveRecord::Schema.define(version: 20150301131028) do
 
   create_table "deals", force: true do |t|
     t.string   "deal"
@@ -33,6 +33,6 @@ ActiveRecord::Schema.define(version: 20150301082131) do
     t.integer  "deal_id"
   end
 
-  add_index "players", ["name"], name: "index_players_on_name", unique: true
+  add_index "players", ["deal_id", "name"], name: "index_players_on_deal_id_and_name", unique: true
 
 end
