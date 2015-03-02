@@ -6,3 +6,8 @@ var random_val = document.createTextNode("<%= escape_javascript(render plain: @d
 button_random.appendChild(random_val);
 random_area.appendChild(button_random);
 deal_area.innerHTML = "<button class='btn-number-deal'><%= escape_javascript(render plain: @deal[:deal].last) %></button>";
+
+var btnDeal = document.getElementById("deal_btn");
+if("<%= escape_javascript(render plain: @deal[:deal].length) %>" == "75"){
+	btnDeal.disabled = true;
+}
