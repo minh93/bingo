@@ -8,6 +8,8 @@ random_area.appendChild(button_random);
 deal_area.innerHTML = "<button class='btn-number-deal'><%= escape_javascript(render plain: @deal[:deal].last) %></button>";
 
 var btnDeal = document.getElementById("deal_btn");
+var endStatus = document.getElementById("end_status");
 if("<%= escape_javascript(render plain: @deal[:deal].length) %>" == "75"){
 	btnDeal.disabled = true;
+	endStatus.innerHTML = "Game had dealed all of 75 numbers. The end !!!";
 }

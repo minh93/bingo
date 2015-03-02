@@ -2,6 +2,7 @@
   <div class="text-center" style="height: 40%;">
     <h4 class="text-center">Deal number to speak</h4>
     <%= button_to "DEAL", { action: "add" }, { id: 'deal_btn', remote: true, method: 'post', class: "btn btn-primary btn-lg"} %>
+    <div id="end_status"></div>
   </div>
   <p id="qr-area">
 	<h4>Please use your smartphone's qr-code-reader to access game</h4>
