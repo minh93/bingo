@@ -3,6 +3,7 @@
   <h2>Good luck!!! <strong style="color: green;"><%= session[:player_name] %></strong> !</h2>
   <div class="table-responsive">
   <table class="table table-hover table-bordered table-condensed">
+  <!-- @playerのインスタンスのなかに(0..4)の情報はすでにないか？-->
   <% (0..4).each do |row| %>
     <tr>
     <% (0..4).each do |column| %>

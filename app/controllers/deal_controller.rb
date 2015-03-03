@@ -1,9 +1,12 @@
 require 'rqrcode_png'
 
 class DealController < ApplicationController
-	
+
   def index
+    ###インテンドはスペース2に統一しよう。下の行のタブは使わない
+    ###ホスト名などは、変更が変更がないところなので、共通関数としたほうがよいのではないか？
   	@host = request.host_with_port
+    ###"/player/login" はlogin_pathで示すことができるのではないか
     @qr = RQRCode::QRCode.new(@host + "/player/login?id=#{session[:deal_id]}", :level => :l).to_img.resize(200, 200).to_data_url
     @game_session = Deal.find(session[:deal_id])
     @db_numbers = @game_session.deal
@@ -15,9 +18,10 @@ class DealController < ApplicationController
   end
 
   def update_event
+    ###"deal_id = ? AND (reach_status = ? OR bingo_status = ?　はPlayerモデルにメソッドとしたらどうか？
     @player_list = Player.where("deal_id = ? AND (reach_status = ? OR bingo_status = ?) ", session[:deal_id], true, true).order("updated_at ASC");
     @response = Array.new
-    @player_list.each do |element| 
+    @player_list.each do |element|
       timestamp = element.updated_at.strftime "%Y-%m-%d-%H:%m"
       @response << {:name => element.name, :updated => timestamp, :reach => element.reach_status, :bingo => element.bingo_status}
     end
@@ -36,14 +40,14 @@ class DealController < ApplicationController
       respond_to do |format|
         if @deal.save
           format.js { render action: "add" }
-          format.json { render json: @deal }       
+          format.json { render json: @deal }
         end
       end
     else
       respond_to do |format|
         format.js { render action: "end"}
       end
-    end   
+    end
   end
 
   def check_random_number_existed(list, random)

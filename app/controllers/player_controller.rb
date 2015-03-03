@@ -5,9 +5,12 @@ class PlayerController < ApplicationController
     #@player = Player.find_by name: session[:player_name]
     @player = Player.joins(:deal).where( players: { deal_id: session[:game_id] , name: session[:player_name] }).first
     if @player.card == nil
+      ### player row、columnの役割がよく見えてきません。説明をお願いします。
+      ### この初期化の配列の大きさなどはまとめて定義できないか？今後メンテナンスしていくのが大変そう　
       @row = Array[0,0,1,0,0]
-      @column = Array[0,0,1,0,0]  
+      @column = Array[0,0,1,0,0]
       @diagonal = Array[1,1]
+      ### 5 や0..4 などは固定値なので、別で定義したほうがよさそう、もしくはCardモデルの作成も検討しよう
       @card = Array.new(5) { Array.new(5) }
       @card_status = Array.new(5) { Array.new(5) }
       i = 0
@@ -20,7 +23,7 @@ class PlayerController < ApplicationController
           end
           @card[j][i] = random_number
           @card_status[j][i] = 0
-        end 
+        end
       end
       @card[2][2] = 0
       @player.card = @card
@@ -97,7 +100,7 @@ class PlayerController < ApplicationController
           format.json { render json: @number }
         end
         return
-      end      
+      end
       if @player.row[row] == 4 || @player.column[column] == 4 || ((row == column || (row + column) == 4) && @player.diagonal[(row == column) ? 0 : 1] == 4)
         respond_to do |format|
           format.js { render action: "reach" }
@@ -113,13 +116,13 @@ class PlayerController < ApplicationController
       respond_to do |format|
         format.js { render action: "error" }
       end
-    end 
+    end
   end
 
 =begin
-  
+
 //To do
-  
+
 =end
   def check_spoke_number(number)
     @game_session = Deal.find(session[:game_id])
@@ -128,9 +131,9 @@ class PlayerController < ApplicationController
       return true
     else
       return false
-    end 
+    end
   end
-  
+
   def reach
     #@player = Player.find_by name: session[:player_name]
     @player = Player.joins(:deal).where( players: { deal_id: session[:game_id], name: session[:player_name] }).first
@@ -164,7 +167,7 @@ class PlayerController < ApplicationController
       format.json { render json: @response}
     end
   end
-  private 
+  private
   def player_params
     params.require(:player).permit(:name)
   end
