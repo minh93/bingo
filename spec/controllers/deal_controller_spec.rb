@@ -5,6 +5,18 @@ RSpec.describe DealController, :type => :controller do
   before do
     @controller = DealController.new
   end
+  ###テストの書き方としてかきのようにまとめるよりメソッド毎に切り分けたほうが他の人が見たときにわかりやすいよ
+  ###あと成功の例テストだけでなくて、失敗のテストもおこなったほうが良いよ
+  describe "index"
+    it "hogehoge" do
+    end
+  end
+
+  describe "update_event" do
+  end
+
+  describe "add" do
+  end
 
   describe "Test DealController's methods" do
 
@@ -33,11 +45,11 @@ RSpec.describe DealController, :type => :controller do
       expect(response.code).not_to eq 200
       expect(count_after).to eq count_before + 1
     end
-    
+
   end
 
-  after(:all) { 
-    Deal.destroy_all 
+  after(:all) {
+    Deal.destroy_all
     reset_session
   }
 
