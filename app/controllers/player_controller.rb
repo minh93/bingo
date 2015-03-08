@@ -1,44 +1,35 @@
 class PlayerController < ApplicationController
+
   respond_to :html, :js
 
   def index
-    #@player = Player.find_by name: session[:player_name]
-    @player = Player.joins(:deal).where( players: { deal_id: session[:game_id] , name: session[:player_name] }).first
+    @player = Player.find_by_deal_and_name(session[:game_id] , session[:player_name])
     if @player.card == nil
       ### player row、columnの役割がよく見えてきません。説明をお願いします。
       ### この初期化の配列の大きさなどはまとめて定義できないか？今後メンテナンスしていくのが大変そう　
-      @row = Array[0,0,1,0,0]
-      @column = Array[0,0,1,0,0]
-      @diagonal = Array[1,1]
+      @player.row = Array[0,0,1,0,0]
+      @player.column = Array[0,0,1,0,0]
+      @player.diagonal = Array[1,1]
+      @player.card = Array.new(Player::CARD_SIZE) { Array.new(Player::CARD_SIZE) }
+      @player.card_status = Array.new(Player::CARD_SIZE) { Array.new(Player::CARD_SIZE) }
       ### 5 や0..4 などは固定値なので、別で定義したほうがよさそう、もしくはCardモデルの作成も検討しよう
-      @card = Array.new(5) { Array.new(5) }
-      @card_status = Array.new(5) { Array.new(5) }
-      i = 0
-      j = 0
+      i = Player::BEGIN_CARD_INDEX
+      j = Player::BEGIN_CARD_INDEX
       random_number = 0
-      for i in 0..4
-        for j in 0..4
-          @card[j][i] = -1;
+      for i in Player::BEGIN_CARD_INDEX..Player::END_CARD_INDEX
+        for j in Player::BEGIN_CARD_INDEX..Player::END_CARD_INDEX
+          @player.card[j][i] = -1;
           while check_existed_number_in_card(random_number = rand(15 * i + 1..15 * i + 15), j, i)
           end
-          @card[j][i] = random_number
-          @card_status[j][i] = 0
+          @player.card[j][i] = random_number
+          @player.card_status[j][i] = 0
         end
       end
-      @card[2][2] = 0
-      @player.card = @card
-      @player.card_status = @card_status
-      @player.row = @row
-      @player.column = @column
-      @player.diagonal = @diagonal
+      @player.card[2][2] = 0
       @player.save
 
       render layout: 'mylayout'
     else
-      @card = @player.card
-      @card_status = @player.card_status
-      @reach_status = @player.reach_status
-      @bingo_status = @player.bingo_status
       render layout: 'mylayout'
     end
   end
@@ -46,7 +37,7 @@ class PlayerController < ApplicationController
   def check_existed_number_in_card(number, j, i)
     tmp = 0;
     for tmp in 0..j
-      if @card[tmp][i] == number
+      if @player.card[tmp][i] == number
         return true;
       end
     end
@@ -67,8 +58,6 @@ class PlayerController < ApplicationController
   def add
     @game_session = Deal.find(session[:game_id])
     @player = @game_session.players.create(name: params[:player][:name])
-    #@player = Player.create(deal_id: session[:game_id], name: params[:name])
-    #@player.build_deal(deal_id: session[:game_id])
     if @player.save
       session[:player_name] = @player.name
       redirect_to '/player/index'
@@ -82,8 +71,7 @@ class PlayerController < ApplicationController
     column = params[:column].to_i
     @number = params[:number].to_s
     if check_spoke_number(params[:number].to_i)
-      #@player = Player.find_by name: session[:player_name]
-      @player = Player.joins(:deal).where( players: { deal_id: session[:game_id], name: session[:player_name] }).first
+      @player = Player.find_by_deal_and_name(session[:game_id] , session[:player_name])
       @player.row[row] = @player.row[row] + 1
       @player.column[column] = @player.column[column]  + 1
       @player.card_status[row][column] = 1
@@ -136,7 +124,7 @@ class PlayerController < ApplicationController
 
   def reach
     #@player = Player.find_by name: session[:player_name]
-    @player = Player.joins(:deal).where( players: { deal_id: session[:game_id], name: session[:player_name] }).first
+    @player = Player.find_by_deal_and_name(session[:game_id] , session[:player_name])
     if @player.reach_status != true
       @player.reach_status = true
       @player.save
@@ -147,8 +135,7 @@ class PlayerController < ApplicationController
   end
 
   def bingo
-    #@player = Player.find_by name: session[:player_name]
-    @player = Player.joins(:deal).where( players: { deal_id: session[:game_id], name: session[:player_name] }).first
+    @player = Player.find_by_deal_and_name(session[:game_id] , session[:player_name])
     if @player.bingo_status != true
       @player.bingo_status = true
       @player.save

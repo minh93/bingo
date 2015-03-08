@@ -4,26 +4,27 @@
   <div class="table-responsive">
   <table class="table table-hover table-bordered table-condensed">
   <!-- @playerのインスタンスのなかに(0..4)の情報はすでにないか？-->
-  <% (0..4).each do |row| %>
+  <!-- We need index of card to access card status, so we don't change this loop type -->
+  <% (Player::BEGIN_CARD_INDEX..Player::END_CARD_INDEX).each do |row| %>
     <tr>
-    <% (0..4).each do |column| %>
-      <% if @card[row][column] != 0 && @card_status[row][column] == 0 %>
+    <% (Player::BEGIN_CARD_INDEX..Player::END_CARD_INDEX).each do |column| %>
+      <% if @player.card[row][column] != 0 && @player.card_status[row][column] == 0 %>
         <td align="center">
         <%= form_tag({controller: "player", action: "check_number"}, remote: true, method: "get", id: "form-number") do %>
           <%= hidden_field_tag(:row, row) %>
           <%= hidden_field_tag(:column, column) %>
-          <%= hidden_field_tag(:number, @card[row][column]) %>
-          <%= submit_tag(@card[row][column], id: "#{@card[row][column]}", class: "btn-none-effect" ) %>
+          <%= hidden_field_tag(:number, @player.card[row][column]) %>
+          <%= submit_tag(@player.card[row][column], id: "#{@player.card[row][column]}", class: "btn-none-effect" ) %>
         <% end %>
         </td>
       <% else %>
-        <% if @card[row][column] == 0 %>
+        <% if @player.card[row][column] == 0 %>
           <td align="center">
             <div id="form-number"><button id = "free">Free</button></div>
           </td>
         <% else %>
           <td align="center">
-            <div id="form-number"><button id = "free"><%= @card[row][column] %></button></div>
+            <div id="form-number"><button id = "free"><%= @player.card[row][column] %></button></div>
           </td>
         <% end %>
       <%end%>
@@ -35,13 +36,13 @@
 
   <div id="response"></div>
   <audio id="sound_reach" src="/assets/reach.mp3" preload="auto"></audio>
-  <% if @reach_status == true %>
+  <% if @player.reach_status == true %>
      <%= button_to "REACH", { action: "reach" }, { remote: true, method: "get", disabled: false, class: "btn btn-primary btn-lg btn-block", id: 'reach', onclick: "reachOnclick();"} %><br>
   <% else %>
     <%= button_to "REACH", { action: "reach" }, { remote: true, method: "get", disabled: true, class: "btn btn-default btn-lg btn-block", id: 'reach', onclick: "reachOnclick();"} %><br>
   <% end %>
   <audio id="sound_bingo" src="/assets/bingo.mp3" preload="auto"></audio>
-  <% if @bingo_status == true %>
+  <% if @player.bingo_status == true %>
     <%= button_to "BINGO", { action: "bingo" }, { remote: true, method: "get", disabled: false, class: "btn btn-primary btn-lg btn-block", id: 'bingo', onclick: "bingoOnclick();" } %>
   <% else %>
     <%= button_to "BINGO", { action: "bingo" }, { remote: true, method: "get", disabled: true, class: "btn btn-default btn-lg btn-block", id: 'bingo', onclick: "bingoOnclick();" } %>

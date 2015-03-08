@@ -11,27 +11,50 @@ RSpec.describe PlayerController, :type => :controller do
     expect(response).to have_http_status(:success)
   end
 
-  describe "Test Index view" do 
-
-    it "check card not null" do
-      card = @controller.instance_variable_get(:@card)
-      expect(card).not_to eq nil
+  describe "index" do
+    it "hogehoge" do
     end
+  end
 
-    it "check spoke number by Dealer" do 
+  describe "check_spoke_number" do
+    it "check spoke number by Dealer" do
       result1 = @controller.check_spoke_number 23
       result2 = @controller.check_spoke_number 47
       expect(result1).to eq true
       expect(result2).to eq false
     end
+  end
 
-    it "check number when click in bingo card" do
+  describe "check_number" do
+    it "check number when click in bingo card response success" do
       xhr :post, :check_number
       expect(response.code).not_to eq 200
     end
   end
 
-  describe "Test Login view" do
+  describe "reach" do
+    it "check reach status response success" do
+      xhr :post, :reach
+      expect(response.code).not_to eq 200
+    end
+  end
+
+  describe "bingo" do
+    it "check bingo status response success" do
+      xhr :post, :bingo
+      expect(response.code).not_to eq 200
+    end
+  end
+
+  describe "update_deal_numbers" do
+    it "response success" do
+      xhr :post, :update_deal_numbers
+      expect(response.code).not_to eq 200
+    end
+  end
+
+  describe "login" do
+
     it "if having more 100 players" do
       game = Deal.create(deal: [1,2,7,9])
       1.upto(100) do |i|
@@ -53,10 +76,10 @@ RSpec.describe PlayerController, :type => :controller do
     end
   end
 
-  after(:all) { 
-    Player.destroy_all 
+  after(:all) do
+    Player.destroy_all
     Deal.destroy_all
     reset_session
-  }
+  end
 
 end
