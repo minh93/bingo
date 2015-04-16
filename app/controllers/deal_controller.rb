@@ -5,7 +5,7 @@ class DealController < ApplicationController
   def index
     ###インテンドはスペース2に統一しよう。下の行のタブは使わない
     ###ホスト名などは、変更が変更がないところなので、共通関数としたほうがよいのではないか？
-  	host = request.host_with_port
+  	host = "http://" + request.host_with_port
     ###"/player/login" はlogin_pathで示すことができるのではないか
     @qr = RQRCode::QRCode.new(host + login_path + "?id=#{session[:deal_id]}", :level => :l).to_img.resize(200, 200).to_data_url
     @game_session = Deal.find(session[:deal_id])
