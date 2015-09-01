@@ -1,11 +1,36 @@
-var random_area = document.getElementById("random_nums");
+var bg_col_1 = document.getElementById("bg-col-1");
+var bg_col_2 = document.getElementById("bg-col-2");
+var bg_col_3 = document.getElementById("bg-col-3");
+var bg_col_4 = document.getElementById("bg-col-4");
+var bg_col_5 = document.getElementById("bg-col-5");
+
 var deal_area = document.getElementById("deal_num");
-var button_random = document.createElement("button");
-button_random.className = "btn-number-deal";
+var button_random = document.createElement("div");
+button_random.className = "btn-number-deal row";
 var random_val = document.createTextNode("<%= escape_javascript(render plain: @deal[:deal].last) %>");
 button_random.appendChild(random_val);
-random_area.appendChild(button_random);
-deal_area.innerHTML = "<button class='btn-number-deal'><%= escape_javascript(render plain: @deal[:deal].last) %></button>";
+
+var random_val_int = <%= escape_javascript(render plain: @deal[:deal].last) %>
+
+switch (true){
+  case (random_val_int < 16):
+    bg_col_1.appendChild(button_random);
+  break;
+  case (random_val_int < 31):
+    bg_col_2.appendChild(button_random);
+  break;
+  case (random_val_int < 46):
+    bg_col_3.appendChild(button_random);
+  break;
+  case (random_val_int < 61):
+    bg_col_4.appendChild(button_random);
+  break;
+  case (random_val_int < 76):
+    bg_col_5.appendChild(button_random);
+  break;
+}
+
+deal_area.innerHTML = "<button class='btn-number-deal-current'><%= escape_javascript(render plain: @deal[:deal].last) %></button>";
 
 var btnDeal = document.getElementById("deal_btn");
 var endStatus = document.getElementById("end_status");
