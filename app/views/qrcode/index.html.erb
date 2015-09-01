@@ -1,11 +1,11 @@
 <div class="col-lg-6 text-center">
-  <p id="qr-area"><h4>Please use your smartphone's qr-code-reader to access game</h4><br><br>
+  <p id="qr-area"><h4><%= t ".intruction" %></h4><br><br>
   <%= image_tag @qr %>
   </p>
 </div>
 <div class="col-lg-6 text-center">
   <p id="qr-area">
-	<h4>Click here to start dealing game</h4><br><br>
-    <%= link_to "Start", deal_path, {class: "btn btn-success btn-lg" , id: "startgame-btn"} %>
+    <h4><%= t ".start" %></h4><br><br>
+    <%= link_to t(".btn_start"), deal_path, {class: "btn btn-success btn-lg" , id: "startgame-btn"} %>
   </p>
 </div>

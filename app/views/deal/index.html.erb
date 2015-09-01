@@ -1,12 +1,12 @@
 <div class="col-lg-3 text-center"  id="div-deal-action">
   <div class="text-center" style="height: 40%;">
     <h4 class="text-center">Deal number to speak</h4>
-    <%= button_to "DEAL", { action: "add" }, { id: 'deal_btn', remote: true, method: 'post', class: "btn btn-primary btn-lg"} %>
+    <%= button_to "DEAL", { action: "create" }, { id: "deal_btn", remote: true, method: "post", class: "btn btn-primary btn-lg"} %>
     <div id="end_status"></div>
   </div>
   <p id="qr-area">
-	<h4>Please use your smartphone's qr-code-reader to access game</h4>
-	<%= image_tag @qr %>
+  <h4>Please use your smartphone's qr-code-reader to access game</h4>
+  <%= image_tag @qr %>
   </p>
 </div>
 <div class="col-lg-6" id="div-deal-area">
@@ -27,9 +27,8 @@
   </div>
 </div>
 
-
 <div class="col-lg-3" id="div-events">
-	<h4 class="text-center"> Events </h4>
-	<div id="log_event">
-	</div>
+  <h4 class="text-center"> Events </h4>
+  <div id="log_event">
+  </div>
 </div

@@ -10,10 +10,11 @@
     <% (Player::BEGIN_CARD_INDEX..Player::END_CARD_INDEX).each do |column| %>
       <% if @player.card[row][column] != 0 && @player.card_status[row][column] == 0 %>
         <td align="center">
-        <%= form_tag({controller: "player", action: "check_number"}, remote: true, method: "get", id: "form-number") do %>
+        <%= form_tag({:controller => :player, :action => :update}, remote: true, id: "form-number") do %>
           <%= hidden_field_tag(:row, row) %>
           <%= hidden_field_tag(:column, column) %>
           <%= hidden_field_tag(:number, @player.card[row][column]) %>
+          <%= hidden_field_tag(:type_of_action, "check_number") %>
           <%= submit_tag(@player.card[row][column], id: "#{@player.card[row][column]}", class: "btn-none-effect" ) %>
         <% end %>
         </td>
@@ -37,15 +38,15 @@
   <div id="response"></div>
   <audio id="sound_reach" src="/assets/reach.mp3" preload="auto"></audio>
   <% if @player.reach_status == true %>
-     <%= button_to "REACH", { action: "reach" }, { remote: true, method: "get", disabled: false, class: "btn btn-primary btn-lg btn-block", id: 'reach', onclick: "reachOnclick();"} %><br>
+     <%= button_to "REACH", {:controller => "player", :action => "update", :type_of_action => "reach"}, { remote: true, method: "post", disabled: false, class: "btn btn-primary btn-lg btn-block", id: 'reach', onclick: "reachOnclick();"} %><br>
   <% else %>
-    <%= button_to "REACH", { action: "reach" }, { remote: true, method: "get", disabled: true, class: "btn btn-default btn-lg btn-block", id: 'reach', onclick: "reachOnclick();"} %><br>
+    <%= button_to "REACH", {:controller => "player", :action => "update", :type_of_action => "reach"}, { remote: true, method: "post", disabled: true, class: "btn btn-default btn-lg btn-block", id: 'reach', onclick: "reachOnclick();"} %><br>
   <% end %>
   <audio id="sound_bingo" src="/assets/bingo.mp3" preload="auto"></audio>
   <% if @player.bingo_status == true %>
-    <%= button_to "BINGO", { action: "bingo" }, { remote: true, method: "get", disabled: false, class: "btn btn-primary btn-lg btn-block", id: 'bingo', onclick: "bingoOnclick();" } %>
+    <%= button_to "BINGO", {:controller => "player", :action => "update", :type_of_action => "bingo"}, { remote: true, method: "post", disabled: false, class: "btn btn-primary btn-lg btn-block", id: 'bingo', onclick: "bingoOnclick();" } %>
   <% else %>
-    <%= button_to "BINGO", { action: "bingo" }, { remote: true, method: "get", disabled: true, class: "btn btn-default btn-lg btn-block", id: 'bingo', onclick: "bingoOnclick();" } %>
+    <%= button_to "BINGO", {:controller => "player", :action => "update", :type_of_action => "bingo"}, { remote: true, method: "post", disabled: true, class: "btn btn-default btn-lg btn-block", id: 'bingo', onclick: "bingoOnclick();" } %>
   <% end %>
   <h5>Dealer spoke number: </h5>
   <div id="spoke_number">
@@ -53,6 +54,6 @@
 </div>
 <% else %>
   <script type="text/javascript">
-    window.location.href="/player/login";
+    window.location.href="/session/new";
   </script>
 <% end %>

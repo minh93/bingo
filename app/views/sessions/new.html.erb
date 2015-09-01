@@ -11,7 +11,7 @@
   </div>
 <% end %>
 <div style="text-align: center; margin-top: 30px;">
-<%= form_for(@player, url: { action: 'add' }, id: "form-login") do |f| %>
+<%= form_for(:session, url: login_path, id: "form-login") do |f| %>
   <%= f.label "Input your name to play game" %><br><br>
   <%= f.text_field :name, class: "form-control", placeholder: "Your name here..." %> <br><br>
   <%= f.submit "Go", class: "btn btn-success btn-lg" %>
