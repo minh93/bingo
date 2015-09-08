@@ -2,7 +2,7 @@ class PlayerController < ApplicationController
 
   respond_to :html, :js
 
-  def index
+  def show
     @player = Player.find_by_deal_and_name(session[:game_id] , session[:player_name])
     if @player.card == nil
       ### player row、columnの役割がよく見えてきません。説明をお願いします。
@@ -12,7 +12,7 @@ class PlayerController < ApplicationController
       @player.diagonal = Array[1,1]
       @player.card = Array.new(Player::CARD_SIZE) { Array.new(Player::CARD_SIZE) }
       @player.card_status = Array.new(Player::CARD_SIZE) { Array.new(Player::CARD_SIZE) }
-      ### 5 や0..4 などは固定値なので、別で定義したほうがよさそう、もしくはCardモデルの作成も検討しよう
+      ### 5 や 0..4 などは固定値なので、別で定義したほうがよさそう、もしくはCardモデルの作成も検討しよう
       i = Player::BEGIN_CARD_INDEX
       j = Player::BEGIN_CARD_INDEX
       random_number = 0
@@ -28,11 +28,28 @@ class PlayerController < ApplicationController
       @player.card[2][2] = 0
       @player.save
 
-      render layout: 'mylayout'
+      render layout: "mylayout"
     else
-      render layout: 'mylayout'
+      render layout: "mylayout"
     end
   end
+
+  def update
+    if params[:type_of_action] == "reach"
+      #byebug
+      reach
+    elsif params[:type_of_action] == "bingo"
+      #byebug
+      bingo
+    elsif params[:type_of_action] == "check_number"
+      #byebug
+      check_number
+    elsif params[:type_of_action] == "update_deal_numbers"
+      update_deal_numbers
+    end
+  end
+
+  private
 
   def check_existed_number_in_card(number, j, i)
     tmp = 0;
@@ -42,28 +59,6 @@ class PlayerController < ApplicationController
       end
     end
     return false;
-  end
-
-  def login
-    session[:game_id] = params[:id]
-    @player_numbers = Player.count
-    if @player_numbers >= 100
-      render 'login_max_out'
-    else
-      @player = Player.new
-      render layout: 'mylayout'
-    end
-  end
-
-  def add
-    @game_session = Deal.find(session[:game_id])
-    @player = @game_session.players.create(name: params[:player][:name])
-    if @player.save
-      session[:player_name] = @player.name
-      redirect_to '/player/index'
-    else
-      render 'login', layout: 'mylayout'
-    end
   end
 
   def check_number
@@ -154,7 +149,7 @@ class PlayerController < ApplicationController
       format.json { render json: @response}
     end
   end
-  private
+
   def player_params
     params.require(:player).permit(:name)
   end
