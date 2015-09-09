@@ -10,6 +10,18 @@ class DealController < ApplicationController
     @qr = RQRCode::QRCode.new(host + login_path + "?id=#{session[:deal_id]}", :level => :l).to_img.resize(200, 200).to_data_url
     @db_numbers = Deal.find(session[:deal_id]).deal
     @dealed_numbers = @db_numbers
+    ###Group numbers in five groups
+    @column_1, @column_2, @column_3, @column_4, @column_5 = [], [], [], [], []
+    @dealed_numbers.each do |item|
+      case item
+        when 1..15 then @column_1<<item
+        when 16..30 then @column_2<<item
+        when 31..45 then @column_3<<item
+        when 46..60 then @column_4<<item
+        when 61..75 then @column_5<<item
+      end
+    end
+
     unless @db_numbers.empty?
       @current_number = @db_numbers.last
     end

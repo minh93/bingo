@@ -1,34 +1,80 @@
 <div class="col-lg-3 text-center"  id="div-deal-action">
   <div class="text-center" style="height: 40%;">
-    <h4 class="text-center">Deal number to speak</h4>
-    <%= button_to "DEAL", { action: "create" }, { id: "deal_btn", remote: true, method: "post", class: "btn btn-primary btn-lg"} %>
+    <div id="deal_num">
+      <% if @current_number.nil? %>
+        <button class="btn-number-ready">
+          Ready
+        </button>
+      <% else %>
+        <button class="btn-number-deal-current">
+          <%= @current_number %>
+        </button>
+      <% end %>
+    </div>
+    <%= button_to "DEAL", { action: "add" }, { id: 'deal_btn', remote: true, method: 'post', class: "btn btn-primary btn-lg"} %>
     <div id="end_status"></div>
   </div>
-  <p id="qr-area">
-  <h4>Please use your smartphone's qr-code-reader to access game</h4>
-  <%= image_tag @qr %>
-  </p>
+  <div id="qr-area">
+    <h4>Join with us</h4>
+    <%= image_tag @qr %>
+  </div>
 </div>
 <div class="col-lg-6" id="div-deal-area">
-  <h4 class="text-center">Random numbers</h4>
-  <h4>Current dealing number here:</h4>
-  <div id="deal_num" style="height: 8%;">
-    <% unless @current_number.nil? %>
-      <button class="btn-number-deal"><%= @current_number %></button>
-    <% end %>
-  </div>
-  <h4>Numbers you have dealed:</h4>
-  <div id="random_nums" style="height: 75%;">
-    <% unless @dealed_numbers.empty? 
-      @dealed_numbers.each {|element| %>
-        <button class="btn-number-deal"><%= element %></button>
-      <% } 
-      end %>
-  </div>
+  <div class="row five-cols">
+    <div id = "bg-col-1" class="col-md-1 container">
+      <div class="row col_title", style="color: #ff3d7f;">B</div>
+      <% unless @column_1.empty? %>
+      <% @column_1.each do |element| %>
+      <div class="btn-number-deal row">
+        <%= element %>
+      </div>
+      <% end %>
+      <% end %>
+    </div>
+    <div id = "bg-col-2" class="col-md-1 container">
+      <div class="row col_title", style="color: #f9d423;">I</div>
+      <% unless @column_2.empty? %>
+      <% @column_2.each do |element| %>
+      <div class="btn-number-deal row">
+        <%= element %>
+      </div>
+      <% end %>
+      <% end %>
+    </div>
+    <div id = "bg-col-3" class="col-md-1 container">
+      <div class="row col_title", style="color: #3fb8af;">N</div>
+      <% unless @column_3.empty? %>
+      <% @column_3.each do |element| %>
+      <div class="btn-number-deal row">
+        <%= element %>
+      </div>
+      <% end %>
+      <% end %>
+    </div>
+    <div id = "bg-col-4" class="col-md-1 container">
+      <div class="row col_title", style="color: #81bade;">G</div>
+      <% unless @column_4.empty? %>
+      <% @column_4.each do |element| %>
+      <div class="btn-number-deal row">
+        <%= element %>
+      </div>
+      <% end %>
+      <% end %>
+    </div>
+    <div id = "bg-col-5" class="col-md-1 container">
+      <div class="row col_title", style="color: #ba658a;">O</div>
+      <% unless @column_5.empty? %>
+      <% @column_5.each do |element| %>
+      <div class="btn-number-deal row">
+        <%= element %>
+      </div>
+      <% end %>
+      <% end %>
+    </div>
+  </div>  
 </div>
-
 <div class="col-lg-3" id="div-events">
-  <h4 class="text-center"> Events </h4>
+  <h4 id="title", class="row"> Winner </h4>
   <div id="log_event">
   </div>
-</div
+</div>
