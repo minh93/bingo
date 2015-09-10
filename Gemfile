@@ -13,12 +13,14 @@ gem "jquery-rails"
 gem "turbolinks"
 gem "jbuilder", "~> 2.0"
 gem "sdoc", "~> 0.4.0", group: :doc
-gem "unicorn"
+#gem "unicorn"
+#gem "capistrano", "~>3.4.0"
+gem "puma"
 
 # unit test
 group :development, :test do
-    gem "rspec-rails", "~> 3.0"
-    gem "spring"
+  gem "rspec-rails", "~> 3.0"
+  gem "spring"
 end
 group :development do
   gem "sqlite3"
@@ -26,5 +28,10 @@ group :development do
 end
 group :production do
   gem "rails_12factor"
-  gem "mysql2"
+  gem "pg"
+  gem "capistrano"
+  gem "capistrano-rvm"
+  gem "capistrano-rails"
+  gem "capistrano-bundler"
+  gem "capistrano3-puma"
 end
