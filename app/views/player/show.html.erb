@@ -15,7 +15,7 @@
           <%= hidden_field_tag(:column, column) %>
           <%= hidden_field_tag(:number, @player.card[row][column]) %>
           <%= hidden_field_tag(:type_of_action, "check_number") %>
-          <%= submit_tag(@player.card[row][column], id: "#{@player.card[row][column]}", class: "btn-none-effect" ) %>
+          <%= submit_tag(@player.card[row][column], id: "#{@player.card[row][column]}", onclick: "this.disabled=true",class: "btn-none-effect" ) %>
         <% end %>
         </td>
       <% else %>
@@ -38,15 +38,15 @@
   <div id="response"></div>
   <audio id="sound_reach" src="/assets/reach.mp3" preload="auto"></audio>
   <% if @player.reach_status == true %>
-     <%= button_to "REACH", {:controller => "player", :action => "update", :type_of_action => "reach"}, { remote: true, method: "post", disabled: false, class: "btn btn-primary btn-lg btn-block", id: 'reach', onclick: "reachOnclick();"} %><br>
+     <%= button_to "REACH", {:controller => "player", :action => "update", :type_of_action => "reach"}, { remote: true, method: "post", disabled: false, class: "btn btn-primary btn-lg btn-block", id: 'reach', onclick: "this.disabled=true"} %><br>
   <% else %>
-    <%= button_to "REACH", {:controller => "player", :action => "update", :type_of_action => "reach"}, { remote: true, method: "post", disabled: true, class: "btn btn-default btn-lg btn-block", id: 'reach', onclick: "reachOnclick();"} %><br>
+    <%= button_to "REACH", {:controller => "player", :action => "update", :type_of_action => "reach"}, { remote: true, method: "post", disabled: true, class: "btn btn-default btn-lg btn-block", id: 'reach', onclick: "this.disabled=true"} %><br>
   <% end %>
   <audio id="sound_bingo" src="/assets/bingo.mp3" preload="auto"></audio>
   <% if @player.bingo_status == true %>
-    <%= button_to "BINGO", {:controller => "player", :action => "update", :type_of_action => "bingo"}, { remote: true, method: "post", disabled: false, class: "btn btn-primary btn-lg btn-block", id: 'bingo', onclick: "bingoOnclick();" } %>
+    <%= button_to "BINGO", {:controller => "player", :action => "update", :type_of_action => "bingo"}, { remote: true, method: "post", disabled: false, class: "btn btn-primary btn-lg btn-block", id: 'bingo', onclick: "this.disabled=true" } %>
   <% else %>
-    <%= button_to "BINGO", {:controller => "player", :action => "update", :type_of_action => "bingo"}, { remote: true, method: "post", disabled: true, class: "btn btn-default btn-lg btn-block", id: 'bingo', onclick: "bingoOnclick();" } %>
+    <%= button_to "BINGO", {:controller => "player", :action => "update", :type_of_action => "bingo"}, { remote: true, method: "post", disabled: true, class: "btn btn-default btn-lg btn-block", id: 'bingo', onclick: "this.disabled=true" } %>
   <% end %>
   <h5>Dealer spoke number: </h5>
   <div id="spoke_number">
