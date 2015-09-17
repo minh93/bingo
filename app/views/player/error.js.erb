@@ -1,2 +1,4 @@
+var btnNumber = document.getElementById("<%= escape_javascript(render plain: @number) %>");
 document.getElementById("response").innerHTML = "This number is not spoken by dealer!!!"
 document.getElementById("response").style.color = "#057505"
+btnNumber.disabled = false;

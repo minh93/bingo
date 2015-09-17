@@ -36,13 +36,10 @@ class PlayerController < ApplicationController
 
   def update
     if params[:type_of_action] == "reach"
-      #byebug
       reach
     elsif params[:type_of_action] == "bingo"
-      #byebug
       bingo
     elsif params[:type_of_action] == "check_number"
-      #byebug
       check_number
     elsif params[:type_of_action] == "update_deal_numbers"
       update_deal_numbers
@@ -82,22 +79,21 @@ class PlayerController < ApplicationController
           format.js { render action: "bingo" }
           format.json { render json: @number }
         end
-        return
-      end
-      if @player.row[row] == 4 || @player.column[column] == 4 || ((row == column || (row + column) == 4) && @player.diagonal[(row == column) ? 0 : 1] == 4)
+      elsif @player.row[row] == 4 || @player.column[column] == 4 || ((row == column || (row + column) == 4) && @player.diagonal[(row == column) ? 0 : 1] == 4)
         respond_to do |format|
           format.js { render action: "reach" }
           format.json { render json: @number }
         end
-        return
-      end
-      respond_to do |format|
-        format.js {}
-        format.json { render json: @number }
+      else
+        respond_to do |format|
+          format.js { render action: "check" }
+          format.json { render json: @number }
+        end
       end
     else
       respond_to do |format|
         format.js { render action: "error" }
+        format.json { render json: @number }
       end
     end
   end
@@ -110,11 +106,7 @@ class PlayerController < ApplicationController
   def check_spoke_number(number)
     @game_session = Deal.find(session[:game_id])
     deal_list = @game_session.deal
-    if deal_list.include? number
-      return true
-    else
-      return false
-    end
+    deal_list.include? number
   end
 
   def reach
