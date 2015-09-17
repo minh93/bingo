@@ -5,6 +5,7 @@ class DealController < ApplicationController
   def index
     ###インテンドはスペース2に統一しよう。下の行のタブは使わない
     ###ホスト名などは、変更が変更がないところなので、共通関数としたほうがよいのではないか？
+    random_tempwinner
     host = "http://" + request.host_with_port
     ###"/player/login" はlogin_pathで示すことができるのではないか
     @qr = RQRCode::QRCode.new(host + login_path + "?id=#{session[:deal_id]}", :level => :l).to_img.resize(200, 200).to_data_url
@@ -73,5 +74,19 @@ class DealController < ApplicationController
 
   def check_random_number_existed(list, random)
     return list.include? random
+  end
+
+  def random_tempwinner
+    current_game = Deal.find(session[:deal_id])
+    all_players = current_game.players
+    count_players = all_players.count
+    if count_players != 0
+      tempwinner = all_players[rand(0..count_players-1)]
+      current_game.tempwinner_number[0] = tempwinner.card[2][0]
+      current_game.tempwinner_number[1] = tempwinner.card[2][1]
+      current_game.tempwinner_number[2] = tempwinner.card[2][3]
+      current_game.tempwinner_number[3] = tempwinner.card[2][4]
+      current_game.save
+    end
   end
 end
