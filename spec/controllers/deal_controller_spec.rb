@@ -22,11 +22,11 @@ RSpec.describe DealController, :type => :controller do
   describe "add" do
     it "add method ajax response success" do
       game = Deal.create(deal: [13, 35, 45, 39, 66]);
-      session[:deal_id] = game.id
-      deal_list = Deal.find(session[:deal_id]).deal
+      session[:game_id] = game.id
+      deal_list = Deal.find(session[:game_id]).deal
       count_before = deal_list.length
       xhr :post, :add
-      deal_list = Deal.find(session[:deal_id]).deal
+      deal_list = Deal.find(session[:game_id]).deal
       count_after = deal_list.length
       expect(response.code).not_to eq 200
       expect(count_after).to eq count_before + 1
