@@ -22,4 +22,5 @@ class Player < ActiveRecord::Base
   def self.find_by_deal_and_name game_id, player_name
     joins(:deal).where( players: { deal_id: game_id , name: player_name}).first
   end
+
 end

@@ -27,7 +27,14 @@ class PlayerController < ApplicationController
       end
       @player.card[2][2] = 0
       @player.save
-
+      current_game = Deal.find(session[:deal_id])
+      if current_game.tempwinner_number.count == 0
+        current_game.tempwinner_number[0] = @player.card[2][0]
+        current_game.tempwinner_number[1] = @player.card[2][1]
+        current_game.tempwinner_number[2] = @player.card[2][3]
+        current_game.tempwinner_number[3] = @player.card[2][4]
+        current_game.save
+      end
       render layout: "mylayout"
     else
       render layout: "mylayout"
