@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
         render "login_max_out"
       else
         @player = Player.new
-        render layout: "mylayout"
+        render layout: "application"
       end
     else
       render "player/game_not_found"
@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
       session[:player_name] = @player.name
       redirect_to player_path
     else
-      render :new, layout: "mylayout"
+      render :new, layout: "application"
     end
   end
 end

@@ -35,9 +35,9 @@ class PlayerController < ApplicationController
         current_game.tempwinner_number[3] = @player.card[2][4]
         current_game.save
       end
-      render layout: "mylayout"
+      render layout: "application"
     else
-      render layout: "mylayout"
+      render layout: "application"
     end
   end
 

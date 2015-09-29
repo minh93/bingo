@@ -26,7 +26,7 @@ class DealController < ApplicationController
     unless @db_numbers.empty?
       @current_number = @db_numbers.last
     end
-    render layout: "mylayout"
+    render layout: "application"
   end
 
   def create

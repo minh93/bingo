@@ -1,14 +1,18 @@
 <script type="text/javascript">
-  $(document).ready(function() {
-    $("#number_turn").change(function(){
-    	$.ajax({
-    		url: "qrcode/update",
-        type: "POST",
-        data: {number_of_turn: $("select#number_turn :selected").val(), authenticity_token: $("input[name=authenticity_token]").val()},
-    	})
-    })
-  });
+	$(document).ready(function() {
+		$("#number_turn").change(function(){
+			$.ajax({
+				url: "qrcode/update",
+				type: "POST",
+				data: {number_of_turn: $("select#number_turn :selected").val(), authenticity_token: $("input[name=authenticity_token]").val()},
+			})
+		})
+	});
 </script>
-<h4>Please select your number of turn what you want</h4>
-<%= select(:number, :turn, [10,15,20,25,30].collect {|p| [p, p] }) %>
-<%= link_to image_tag("play-bingo.png", id: "newgame-img"), qrcode_path %>
+<div id="index-cover", class="container-fluid">
+	<div class="row">
+	<h4>Please select your number of turn what you want</h4>
+	<%= select(:number, :turn, [10,15,20,25,30].collect {|p| [p, p] }) %>
+	<%= link_to image_tag("play-bingo.png", id: "newgame-img"), qrcode_path %>
+	</div>
+</div>

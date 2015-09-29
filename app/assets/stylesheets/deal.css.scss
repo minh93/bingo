@@ -84,6 +84,10 @@
 	margin-bottom: 25px;
 }
 
+#deal-screen{
+	margin-top:1%;
+}
+
 #div-deal-area {
 	height: 100%;
 }
@@ -91,6 +95,7 @@
 #div-events {
 	background-color: #F0FAD9;
 	height: 100%;
+	min-height: 640px;
 }
 
 #div-events > #title{
