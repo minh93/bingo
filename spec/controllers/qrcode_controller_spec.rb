@@ -13,5 +13,4 @@ RSpec.describe QrcodeController, :type => :controller do
   	  expect(session[:game_id]).not_to eq nil
   	end
   end
-
 end
