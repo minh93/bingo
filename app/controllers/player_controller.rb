@@ -4,6 +4,7 @@ class PlayerController < ApplicationController
 
   def show
     @player = Player.find_by_deal_and_name(session[:game_id] , session[:player_name])
+    current_game = Deal.find(session[:game_id])
     if @player.card == nil
       ### player row、columnの役割がよく見えてきません。説明をお願いします。
       ### この初期化の配列の大きさなどはまとめて定義できないか？今後メンテナンスしていくのが大変そう　
@@ -26,8 +27,8 @@ class PlayerController < ApplicationController
         end
       end
       @player.card[2][2] = 0
+      @player.card_status[2][2] = 1;
       @player.save
-      current_game = Deal.find(session[:deal_id])
       if current_game.tempwinner_number.count == 0
         current_game.tempwinner_number[0] = @player.card[2][0]
         current_game.tempwinner_number[1] = @player.card[2][1]
@@ -50,6 +51,8 @@ class PlayerController < ApplicationController
       check_number
     elsif params[:type_of_action] == "update_deal_numbers"
       update_deal_numbers
+    elsif params[:type_of_action] == "check_spoke_number"
+      check_spoke_number params[:number]
     end
   end
 
@@ -69,37 +72,77 @@ class PlayerController < ApplicationController
     row = params[:row].to_i
     column = params[:column].to_i
     @number = params[:number].to_s
-    if check_spoke_number(params[:number].to_i)
-      @player = Player.find_by_deal_and_name(session[:game_id] , session[:player_name])
-      @player.row[row] = @player.row[row] + 1
-      @player.column[column] = @player.column[column]  + 1
-      @player.card_status[row][column] = 1
-      if row == column
+    current_game = Deal.find(session[:game_id])
+    @player = Player.find_by_deal_and_name(session[:game_id] , session[:player_name])
+    @player.row[row] = @player.row[row] + 1
+    @player.column[column] = @player.column[column] + 1
+    @player.card_status[row][column] = 1
+    if params[:player_point].to_i > @player.player_point
+      @player.player_point = params[:player_point].to_i
+    end
+    if row == column
         @player.diagonal[0] = @player.diagonal[0] + 1
-      end
-      if (row + column) == 4
+    elsif (row + column) == 4
         @player.diagonal[1] = @player.diagonal[1] + 1
+    end
+    @player.save
+    if params[:winnumber] != nil
+      params[:winnumber].each do |item|
+        temp_item = item.split('-')
+        temp_item[0] = temp_item[0].to_i
+        temp_item[1] = temp_item[1].to_i
+        if temp_item[1] == 4
+          unless current_game.winnumber_type_4.include? temp_item[0]
+            current_game.winnumber_type_4 << temp_item[0]
+            current_game.winnumber_type_3.delete(temp_item[0])
+            current_game.winnumber_type_2.delete(temp_item[0])
+          end
+        elsif temp_item[1] == 3
+          unless current_game.winnumber_type_4.include? temp_item[0]
+            unless current_game.winnumber_type_3.include? temp_item[0]
+              current_game.winnumber_type_3 << temp_item[0]
+              current_game.winnumber_type_2.delete(temp_item[0])
+            end
+          end
+        elsif temp_item[1] == 2
+          unless current_game.winnumber_type_4.include? temp_item[0]
+            unless current_game.winnumber_type_3.include? temp_item[0]
+              unless current_game.winnumber_type_2.include? temp_item[0]
+                current_game.winnumber_type_2 << temp_item[0]
+              end
+            end
+          end
+        end    
       end
-      @player.save
-      if @player.row[row] == 5 || @player.column[column] == 5 || ((row == column || (row + column) == 4) && @player.diagonal[(row == column) ? 0 : 1] == 5 )
-        respond_to do |format|
-          format.js { render action: "bingo" }
-          format.json { render json: @number }
-        end
-      elsif @player.row[row] == 4 || @player.column[column] == 4 || ((row == column || (row + column) == 4) && @player.diagonal[(row == column) ? 0 : 1] == 4)
-        respond_to do |format|
-          format.js { render action: "reach" }
-          format.json { render json: @number }
-        end
-      else
-        respond_to do |format|
-          format.js { render action: "check" }
-          format.json { render json: @number }
-        end
+    end
+    if @player.row[row] == 5 || @player.column[column] == 5 || ((row == column || (row + column) == 4) && @player.diagonal[(row == column) ? 0 : 1] == 5 )
+      current_game.winnumber_type_2.delete(@number.to_i)
+      current_game.winnumber_type_3.delete(@number.to_i)
+      current_game.winnumber_type_4.delete(@number.to_i)
+      current_game.tempwinner_number.delete(@number.to_i)
+      current_game.save
+      respond_to do |format|
+        format.js { render action: "bingo" }
+        format.json { render json: @number }
+      end
+    elsif @player.row[row] == 4 || @player.column[column] == 4 || ((row == column || (row + column) == 4) && @player.diagonal[(row == column) ? 0 : 1] == 4)
+      current_game.winnumber_type_2.delete(@number.to_i)
+      current_game.winnumber_type_3.delete(@number.to_i)
+      current_game.winnumber_type_4.delete(@number.to_i)
+      current_game.tempwinner_number.delete(@number.to_i)
+      current_game.save
+      respond_to do |format|
+        format.js { render action: "reach" }
+        format.json { render json: @number }
       end
     else
+      current_game.winnumber_type_2.delete(@number.to_i)
+      current_game.winnumber_type_3.delete(@number.to_i)
+      current_game.winnumber_type_4.delete(@number.to_i)
+      current_game.tempwinner_number.delete(@number.to_i)
+      current_game.save
       respond_to do |format|
-        format.js { render action: "error" }
+        format.js { render action: "check" }
         format.json { render json: @number }
       end
     end
@@ -110,10 +153,18 @@ class PlayerController < ApplicationController
 //To do
 
 =end
-  def check_spoke_number(number)
+  def check_spoke_number number
     @game_session = Deal.find(session[:game_id])
     deal_list = @game_session.deal
-    deal_list.include? number
+    if deal_list.include? number.to_i
+      render json: {message: "ok"},
+      status: :ok
+    else
+      respond_to do |format|
+        format.js { render action: "error" }
+        format.json { render json: @number }
+      end
+    end
   end
 
   def reach

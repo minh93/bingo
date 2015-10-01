@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150917063754) do
+ActiveRecord::Schema.define(version: 20150930075831) do
 
   create_table "deals", force: true do |t|
     t.string   "deal"
@@ -19,6 +19,9 @@ ActiveRecord::Schema.define(version: 20150917063754) do
     t.datetime "updated_at"
     t.integer  "number_of_turn"
     t.string   "tempwinner_number"
+    t.string   "winnumber_type_2"
+    t.string   "winnumber_type_3"
+    t.string   "winnumber_type_4"
   end
 
   create_table "players", force: true do |t|
@@ -33,6 +36,7 @@ ActiveRecord::Schema.define(version: 20150917063754) do
     t.string   "diagonal"
     t.string   "card_status"
     t.integer  "deal_id"
+    t.integer  "player_point"
   end
 
   add_index "players", ["deal_id", "name"], name: "index_players_on_deal_id_and_name", unique: true

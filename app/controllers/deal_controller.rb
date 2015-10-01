@@ -8,8 +8,8 @@ class DealController < ApplicationController
     random_tempwinner
     host = "http://" + request.host_with_port
     ###"/player/login" はlogin_pathで示すことができるのではないか
-    @qr = RQRCode::QRCode.new(host + login_path + "?id=#{session[:deal_id]}", :level => :l).to_img.resize(200, 200).to_data_url
-    @db_numbers = Deal.find(session[:deal_id]).deal
+    @qr = RQRCode::QRCode.new(host + login_path + "?id=#{session[:game_id]}", :level => :l).to_img.resize(200, 200).to_data_url
+    @db_numbers = Deal.find(session[:game_id]).deal
     @dealed_numbers = @db_numbers
     ###Group numbers in five groups
     @column_1, @column_2, @column_3, @column_4, @column_5 = [], [], [], [], []
@@ -41,7 +41,7 @@ class DealController < ApplicationController
 
   def update_event
     ###"deal_id = ? AND (reach_status = ? OR bingo_status = ?　はPlayerモデルにメソッドとしたらどうか？
-    @player_list = Player.find_by_status(session[:deal_id])
+    @player_list = Player.find_by_status(session[:game_id])
     @response = Array.new
     @player_list.each do |element|
       timestamp = element.updated_at.strftime "%Y-%m-%d-%H:%m"
@@ -53,7 +53,7 @@ class DealController < ApplicationController
   end
 
   def add
-    @deal = Deal.find(session[:deal_id])
+    @deal = Deal.find(session[:game_id])
     @deal_list = @deal.deal
     if (@deal_list.length < 75)
       while check_random_number_existed(@deal_list, deal_num = rand(1..75))
@@ -77,7 +77,7 @@ class DealController < ApplicationController
   end
 
   def random_tempwinner
-    current_game = Deal.find(session[:deal_id])
+    current_game = Deal.find(session[:game_id])
     all_players = current_game.players
     count_players = all_players.count
     if count_players != 0

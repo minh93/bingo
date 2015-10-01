@@ -10,7 +10,7 @@ RSpec.describe QrcodeController, :type => :controller do
 
   	it "create new game session" do
   	  get :index
-  	  expect(session[:deal_id]).not_to eq nil
+  	  expect(session[:game_id]).not_to eq nil
   	end
   end
 

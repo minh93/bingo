@@ -1,3 +1,181 @@
+<script type="text/javascript">
+  var winnumber = [];
+  var row = -1;
+  var column = -1;
+  var player_row;
+  var player_column;
+  var player_diagonal;
+  var player_card;
+  var player_card_status;
+  var player_point;
+  $(document).ready(function() {  
+    player_row = $("#player_row").val().toString().split(" ").map(Number);
+    player_column = $("#player_column").val().toString().split(" ").map(Number);
+    player_diagonal = $("#player_diagonal").val().toString().split(" ").map(Number);
+    player_card_status = $("#player_card_status").val().toString().split(" ").map(Number);
+    player_card = $("#player_card").val().toString().split(" ").map(Number);
+    player_point = parseInt($("#player_point").val().toString());
+  });
+  function submitForm(number){
+    this.disabled = true;
+    var str = $("input[name='"+number+"']").val().toString();
+    get_row_and_col(str);
+    $.ajax({
+      url: "player/update",
+      type: "POST",
+      data: {
+        authenticity_token: $("input[name=authenticity_token]").val(),
+        type_of_action: "check_spoke_number",
+        number: number
+      },
+      success: function(data){
+        var i = 0;
+        var temp = 0;
+        winnumber = [];
+        if (data.message == "ok"){
+          player_row[row]++;
+          player_column[column]++;
+          player_card_status[5 * row + column] = 1;
+          if (row == column)
+            player_diagonal[0]++;
+          else if ((row + column === 4))
+            player_diagonal[1]++;
+          if (player_row[row] === 3){
+            for(i = 5 * row; i < 5 * row + 5; i++){
+              if (player_card_status[i] === 0 && player_card[i] != number){
+                winnumber.push(player_card[i].toString()+"-3");
+                if (player_point < 3)
+                  player_point = 3;
+              }
+            }
+          }else if (player_row[row] === 4){
+            for(i = 5 * row; i < 5 * row + 5; i++){
+              if (player_card_status[i] === 0 && player_card[i] != number){
+                winnumber.push(player_card[i].toString()+"-4");
+                if (player_point < 4)
+                  player_point = 4;
+              }
+            }
+          }else if (player_row[row] === 2){
+            for(i = 5 * row; i < 5 * row + 5; i++){
+              if (player_card_status[i] === 0 && player_card[i] != number){
+                winnumber.push(player_card[i].toString()+"-2");
+                if (player_point < 2)
+                  player_point = 2;
+              }
+            }
+          }
+          if (player_column[column] === 3){
+            for(i = 0; i < 5; i++){
+              temp = column + i * 5;
+              if (player_card_status[temp] === 0 && player_card[temp] != number){
+                winnumber.push(player_card[temp].toString()+"-3");
+                if (player_point < 3)
+                  player_point = 3;
+              }
+            }
+          }else if (player_column[column] === 4){
+            for(i = 0; i < 5; i++){
+              temp = column + i * 5;
+              if (player_card_status[temp] === 0 && player_card[temp] != number){
+                winnumber.push(player_card[temp].toString()+"-4");
+                if (player_point < 4)
+                  player_point = 4;
+              }
+            }
+          }else if (player_column[column] === 2){
+            for(i = 0; i < 5; i++){
+              temp = column + i * 5;
+              if (player_card_status[temp] === 0 && player_card[temp] != number){
+                winnumber.push(player_card[temp].toString()+"-2");
+                if (player_point < 2)
+                  player_point = 2;
+              }
+            }
+          }
+          if (player_diagonal[0] === 3){
+            for(i = 0; i < 5; i++){
+              temp = i * 6;
+              if (player_card_status[temp] === 0 && player_card[temp] != number){
+                winnumber.push(player_card[temp].toString()+"-3");
+                if (player_point < 3)
+                  player_point = 3;
+              }
+            }
+          }else if (player_diagonal[0] === 4){
+            for(i = 0; i < 5; i++){
+              temp = i * 6;
+              if (player_card_status[temp] === 0 && player_card[temp] != number){
+                winnumber.push(player_card[temp].toString()+"-4");
+                if (player_point < 4)
+                  player_point = 4;
+              }
+            }
+          }else if (player_diagonal[0] === 2){
+            for(i = 0; i < 5; i++){
+              temp = i * 6;
+              if (player_card_status[temp] === 0 && player_card[temp] != number){
+                winnumber.push(player_card[temp].toString()+"-2");
+                if (player_point < 2)
+                  player_point = 2;
+              }
+            }
+          }
+          if (player_diagonal[1] === 3){
+            for(i = 1; i <= 5; i++){
+              temp = i * 4;
+              if (player_card_status[temp] === 0 && player_card[temp] != number){
+                winnumber.push(player_card[temp].toString()+"-3");
+                if (player_point < 3)
+                  player_point = 3;
+              }
+            }
+          }else if (player_diagonal[1] === 4){
+            for(i = 1; i <= 5; i++){
+              temp = i * 4;
+              if (player_card_status[temp] === 0 && player_card[temp] != number){
+                winnumber.push(player_card[temp].toString()+"-4");
+                if (player_point < 4)
+                  player_point = 4;
+              }
+            }
+          }else if (player_diagonal[1] === 2){
+            for(i = 1; i <= 5; i++){
+              temp = i * 4;
+              if (player_card_status[temp] === 0 && player_card[temp] != number){
+                winnumber.push(player_card[temp].toString()+"-2");
+                if (player_point < 2)
+                  player_point = 2;
+              }
+            }
+          }
+          $.ajax({
+            url: "player/update",
+            type: "POST",
+            data: {
+              authenticity_token: $("input[name=authenticity_token]").val(),
+              row: row,
+              column: column,
+              type_of_action: "check_number",
+              number: number,
+              player_card_status: player_card_status,
+              winnumber: winnumber,
+              player_point: player_point
+            },
+            success: function(){
+            }
+          });
+        }
+      }
+    });
+  };
+  function get_row_and_col(str){
+    var temp = str.split("-");
+    row = parseInt(temp[0]);
+    column = parseInt(temp[1]);
+  }
+</script>
+
 <% if session[:player_name] %>
 <div style="text-align: center;">
   <h2>Good luck!!! <strong style="color: green;"><%= session[:player_name] %></strong> !</h2>
@@ -5,18 +183,19 @@
   <table class="table table-hover table-bordered table-condensed">
   <!-- @playerのインスタンスのなかに(0..4)の情報はすでにないか？-->
   <!-- We need index of card to access card status, so we don't change this loop type -->
+  <%= hidden_field_tag(:player_row, @player.row) %>
+  <%= hidden_field_tag(:player_column, @player.column) %>
+  <%= hidden_field_tag(:player_diagonal, @player.diagonal) %>
+  <%= hidden_field_tag(:player_card_status, @player.card_status) %>
+  <%= hidden_field_tag(:player_card, @player.card) %>
+  <%= hidden_field_tag(:player_point, @player.player_point) %>
   <% (Player::BEGIN_CARD_INDEX..Player::END_CARD_INDEX).each do |row| %>
     <tr>
     <% (Player::BEGIN_CARD_INDEX..Player::END_CARD_INDEX).each do |column| %>
       <% if @player.card[row][column] != 0 && @player.card_status[row][column] == 0 %>
         <td align="center">
-        <%= form_tag({:controller => :player, :action => :update}, remote: true, id: "form-number") do %>
-          <%= hidden_field_tag(:row, row) %>
-          <%= hidden_field_tag(:column, column) %>
-          <%= hidden_field_tag(:number, @player.card[row][column]) %>
-          <%= hidden_field_tag(:type_of_action, "check_number") %>
-          <%= submit_tag(@player.card[row][column], id: "#{@player.card[row][column]}", onclick: "this.disabled=true",class: "btn-none-effect" ) %>
-        <% end %>
+          <input id="<%=row%>-<%=column%>" type="hidden" value="<%=row%>-<%=column%>" name="<%=@player.card[row][column]%>">
+          <button type="button" id="<%=@player.card[row][column]%>" class="btn-none-effect" value="<%=@player.card[row][column]%>" onClick="submitForm(this.value)"><%=@player.card[row][column]%></button>
         </td>
       <% else %>
         <% if @player.card[row][column] == 0 %>
