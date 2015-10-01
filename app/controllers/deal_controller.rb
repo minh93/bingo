@@ -56,8 +56,7 @@ class DealController < ApplicationController
     @deal = Deal.find(session[:game_id])
     @deal_list = @deal.deal
     if (@deal_list.length < 75)
-      while check_random_number_existed(@deal_list, deal_num = rand(1..75))
-      end
+      deal_num = PseudoRandomDeal @deal, @deal_list
       @deal.deal << deal_num
       respond_to do |format|
         if @deal.save
@@ -88,5 +87,57 @@ class DealController < ApplicationController
       current_game.tempwinner_number[3] = tempwinner.card[2][4]
       current_game.save
     end
+  end
+
+  def PseudoRandomDeal current_game, deal_list
+    current_turn = deal_list.count
+    if current_turn == current_game.number_of_turn - 4
+      if current_game.winnumber_type_2.count == 0 && current_game.winnumber_type_3.count == 0 && current_game.winnumber_type_4.count == 0
+        tempwinner_number = current_game.tempwinner_number
+        count = tempwinner_number.count
+        return tempwinner_number[rand(0..count)]
+      else 
+        return Normal_random deal_list
+      end
+    elsif current_turn == current_game.number_of_turn - 3
+      max_point = Find_max_point current_game
+      if max_point == 4 || max_point == 3
+        return Normal_random deal_list
+      elsif max_point == 2
+        winnumber_type_2 = current_game.winnumber_type_2
+        count = winnumber_type_2.count
+        return winnumber_type_2[rand(0..count)]
+      end
+    elsif current_turn == current_game.number_of_turn - 2
+      max_point = Find_max_point current_game
+      if max_point == 4
+        return Normal_random deal_list
+      elsif max_point == 3
+        winnumber_type_3 = current_game.winnumber_type_3
+        count = winnumber_type_3.count
+        return winnumber_type_3[rand(0..count)]        
+      end 
+    elsif current_turn >= current_game.number_of_turn - 1
+      winnumber_type_4 = current_game.winnumber_type_4
+      count = winnumber_type_4.count
+      return winnumber_type_4[rand(0..count)]
+    else
+      return Normal_random deal_list
+    end
+  end
+
+  def Normal_random deal_list
+    while check_random_number_existed(deal_list, deal_num = rand(1..75))
+    end
+    return deal_num
+  end
+
+  def Find_max_point current_game
+    player_point_list = []
+      all_players = current_game.players
+      all_players.each do |player|
+        player_point_list << player.player_point
+      end
+    return player_point_list.max
   end
 end
