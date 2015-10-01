@@ -56,7 +56,10 @@ class DealController < ApplicationController
     @deal = Deal.find(session[:game_id])
     @dealed_list = @deal.deal
     if (@dealed_list.length < 75)
-      deal_num = PseudoRandomDeal @deal, @dealed_list
+      deal_num = nil
+      while (deal_num == nil)
+        deal_num = PseudoRandomDeal @deal, @dealed_list
+      end
       @deal.deal << deal_num
       respond_to do |format|
         if @deal.save
