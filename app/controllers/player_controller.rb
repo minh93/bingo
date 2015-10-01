@@ -148,11 +148,6 @@ class PlayerController < ApplicationController
     end
   end
 
-=begin
-
-//To do
-
-=end
   def check_spoke_number number
     @game_session = Deal.find(session[:game_id])
     deal_list = @game_session.deal
