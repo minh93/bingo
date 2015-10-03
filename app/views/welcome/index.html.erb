@@ -13,9 +13,11 @@
   });
 </script>
 <div id="index-cover", class="container-fluid">
-  <div class="row">
-  <h4>Please select your number of turn what you want</h4>
-  <%= select(:number, :turn, [10,15,20,25,30].collect {|p| [p, p] }) %>
-  <%= link_to image_tag("play-bingo.png", id: "newgame-img"), qrcode_path %>
+  <div class="row form-inline"> 
+    <label>Turns: </label> 
+    <%= select(:number, :turn, [10,15,20,25,30].collect {|p| [p, p] }, {}, {class: "form-control"}) %>
+  </div>
+  <div class="row">  
+    <%= link_to image_tag("play-bingo.png", id: "newgame-img"), qrcode_path %>
   </div>
 </div>
