@@ -1,12 +1,12 @@
-var btnNumber = document.getElementById("<%= escape_javascript(render plain: @number) %>");
-btnNumber.style.backgroundImage = "url(<%= image_path('circle_green.png') %>)"; 
-btnNumber.style.backgroundSize = "40px 40px";
-btnNumber.style.textAlign = "center";
-btnNumber.style.backgroundRepeat = "no-repeat";
-btnNumber.disabled = true;
-
 var btnReach = document.getElementById("reach");
 btnReach.disabled = false;
 btnReach.className = "btn btn-primary btn-lg btn-block";
 document.getElementById("sound_reach").play();
 document.getElementById("response").innerHTML = "";
+
+var x = document.getElementById("<%= escape_javascript(render plain: @number) %>");
+x.style.backgroundImage = "url(<%= image_path('circle_green.png') %>)"; 
+x.style.backgroundRepeat = "no-repeat"
+x.style.backgroundSize = "40px 40px";
+document.getElementById("response").innerHTML = "";
+x.disabled = true;

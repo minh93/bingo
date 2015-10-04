@@ -162,15 +162,14 @@ class PlayerController < ApplicationController
     end
   end
 
-  def reach
-    #@player = Player.find_by name: session[:player_name]
+  def reach    
     @player = Player.find_by_deal_and_name(session[:game_id] , session[:player_name])
     if @player.reach_status != true
       @player.reach_status = true
       @player.save
     end
     respond_to do |format|
-      format.js
+      format.js { render action: "reach"}
     end
   end
 
@@ -181,7 +180,7 @@ class PlayerController < ApplicationController
       @player.save
     end
     respond_to do |format|
-      format.js
+      format.js { render action: "bingo"}
     end
   end
 

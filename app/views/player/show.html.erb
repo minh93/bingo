@@ -168,71 +168,71 @@
         }
       }
     });
-  };
-  function get_row_and_col(str){
-    var temp = str.split("-");
-    row = parseInt(temp[0]);
-    column = parseInt(temp[1]);
-  }
+};
+function get_row_and_col(str){
+  var temp = str.split("-");
+  row = parseInt(temp[0]);
+  column = parseInt(temp[1]);
+}
 </script>
 
 <% if session[:player_name] %>
 <div style="text-align: center;">
   <h2>Good luck!!! <strong style="color: green;"><%= session[:player_name] %></strong> !</h2>
   <div class="table-responsive">
-  <table class="table table-hover table-bordered table-condensed">
-  <!-- @playerのインスタンスのなかに(0..4)の情報はすでにないか？-->
-  <!-- We need index of card to access card status, so we don't change this loop type -->
-  <%= hidden_field_tag(:player_row, @player.row) %>
-  <%= hidden_field_tag(:player_column, @player.column) %>
-  <%= hidden_field_tag(:player_diagonal, @player.diagonal) %>
-  <%= hidden_field_tag(:player_card_status, @player.card_status) %>
-  <%= hidden_field_tag(:player_card, @player.card) %>
-  <%= hidden_field_tag(:player_point, @player.player_point) %>
-  <% (Player::BEGIN_CARD_INDEX..Player::END_CARD_INDEX).each do |row| %>
-    <tr>
-    <% (Player::BEGIN_CARD_INDEX..Player::END_CARD_INDEX).each do |column| %>
-      <% if @player.card[row][column] != 0 && @player.card_status[row][column] == 0 %>
+    <table class="table table-hover table-bordered table-condensed">
+      <!-- @playerのインスタンスのなかに(0..4)の情報はすでにないか？-->
+      <!-- We need index of card to access card status, so we don't change this loop type -->
+      <%= hidden_field_tag(:player_row, @player.row) %>
+      <%= hidden_field_tag(:player_column, @player.column) %>
+      <%= hidden_field_tag(:player_diagonal, @player.diagonal) %>
+      <%= hidden_field_tag(:player_card_status, @player.card_status) %>
+      <%= hidden_field_tag(:player_card, @player.card) %>
+      <%= hidden_field_tag(:player_point, @player.player_point) %>
+      <% (Player::BEGIN_CARD_INDEX..Player::END_CARD_INDEX).each do |row| %>
+      <tr>
+        <% (Player::BEGIN_CARD_INDEX..Player::END_CARD_INDEX).each do |column| %>
+        <% if @player.card[row][column] != 0 && @player.card_status[row][column] == 0 %>
         <td align="center">
           <input id="<%=row%>-<%=column%>" type="hidden" value="<%=row%>-<%=column%>" name="<%=@player.card[row][column]%>">
           <button type="button" id="<%=@player.card[row][column]%>" class="btn-none-effect" value="<%=@player.card[row][column]%>" onClick="submitForm(this.value)"><%=@player.card[row][column]%></button>
         </td>
-      <% else %>
-        <% if @player.card[row][column] == 0 %>
-          <td align="center">
-            <div id="form-number"><button id = "free">Free</button></div>
-          </td>
         <% else %>
-          <td align="center">
-            <div id="form-number"><button id = "free"><%= @player.card[row][column] %></button></div>
-          </td>
+        <% if @player.card[row][column] == 0 %>
+        <td align="center">
+          <div id="form-number"><button id = "free">Free</button></div>
+        </td>
+        <% else %>
+        <td align="center">
+          <div id="form-number"><button id = "free"><%= @player.card[row][column] %></button></div>
+        </td>
         <% end %>
-      <%end%>
-    <% end %>
-    </tr>
-  <% end %>
-  </table>
+        <%end%>
+        <% end %>
+      </tr>
+      <% end %>
+    </table>
   </div>
 
   <div id="response"></div>
   <audio id="sound_reach" src="/assets/reach.mp3" preload="auto"></audio>
   <% if @player.reach_status == true %>
-     <%= button_to "REACH", {:controller => "player", :action => "update", :type_of_action => "reach"}, { remote: true, method: "post", disabled: false, class: "btn btn-primary btn-lg btn-block", id: 'reach', onclick: "this.disabled=true"} %><br>
+  <%= button_to "REACH", { action: "update" }, { remote: true, method: "post", disabled: false, class: "btn btn-primary btn-lg btn-block", id: 'reach', params: {:type_of_action => "reach"}} %><br>
   <% else %>
-    <%= button_to "REACH", {:controller => "player", :action => "update", :type_of_action => "reach"}, { remote: true, method: "post", disabled: true, class: "btn btn-default btn-lg btn-block", id: 'reach', onclick: "this.disabled=true"} %><br>
+  <%= button_to "REACH", { action: "update" }, { remote: true, method: "post", disabled: true, class: "btn btn-primary btn-lg btn-block", id: 'reach', params: {:type_of_action => "reach"}} %><br>
   <% end %>
   <audio id="sound_bingo" src="/assets/bingo.mp3" preload="auto"></audio>
   <% if @player.bingo_status == true %>
-    <%= button_to "BINGO", {:controller => "player", :action => "update", :type_of_action => "bingo"}, { remote: true, method: "post", disabled: false, class: "btn btn-primary btn-lg btn-block", id: 'bingo', onclick: "this.disabled=true" } %>
+  <%= button_to "BINGO", { action: "update" }, { remote: true, method: "post", disabled: false, class: "btn btn-primary btn-lg btn-block", id: 'bingo', params: {:type_of_action => "bingo"}} %>
   <% else %>
-    <%= button_to "BINGO", {:controller => "player", :action => "update", :type_of_action => "bingo"}, { remote: true, method: "post", disabled: true, class: "btn btn-default btn-lg btn-block", id: 'bingo', onclick: "this.disabled=true" } %>
+  <%= button_to "BINGO", { action: "update" }, { remote: true, method: "post", disabled: true, class: "btn btn-primary btn-lg btn-block", id: 'bingo', params: {:type_of_action => "bingo"}} %>
   <% end %>
   <h5>Dealer spoke number: </h5>
   <div id="spoke_number">
   </div>
 </div>
 <% else %>
-  <script type="text/javascript">
-    window.location.href="/session/new";
-  </script>
+<script type="text/javascript">
+  window.location.href="/session/new";
+</script>
 <% end %>
