@@ -55,10 +55,15 @@ class DealController < ApplicationController
   def add
     @deal = Deal.find(session[:game_id])
     @dealed_list = @deal.deal
+    i = 0;
     if (@dealed_list.length < 75)
       deal_num = nil
       while (deal_num == nil)
         deal_num = PseudoRandomDeal @deal, @dealed_list
+        i = i + 1
+        if i == 10
+          deal_num = Normal_random @dealed_list
+        end
       end
       @deal.deal << deal_num
       respond_to do |format|
