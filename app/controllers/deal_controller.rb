@@ -55,16 +55,18 @@ class DealController < ApplicationController
   def add
     @deal = Deal.find(session[:game_id])
     @dealed_list = @deal.deal
+    @not_exist_deal = @deal.not_exist_deal
     i = 0;
     if (@dealed_list.length < 75)
       deal_num = nil
       while (deal_num == nil)
-        deal_num = PseudoRandomDeal @deal, @dealed_list
+        deal_num = PseudoRandomDeal @deal, @dealed_list, @not_exist_deal
         i = i + 1
         if i == 10
-          deal_num = Normal_random @dealed_list
+          deal_num = Normal_random @not_exist_deal
         end
       end
+      @deal.not_exist_deal.delete(deal_num)
       @deal.deal << deal_num
       respond_to do |format|
         if @deal.save
@@ -79,7 +81,7 @@ class DealController < ApplicationController
     end
   end
 
-  def check_random_number_existed(list, random)
+  def check_random_number_existed list, random
     return list.include? random
   end
 
@@ -97,7 +99,7 @@ class DealController < ApplicationController
     end
   end
 
-  def PseudoRandomDeal current_game, dealed_list
+  def PseudoRandomDeal current_game, dealed_list, not_exist_deal
     called_turn = dealed_list.count
     if called_turn == current_game.number_of_turn - 4
       if current_game.winnumber_type_2.count == 0 && current_game.winnumber_type_3.count == 0 && current_game.winnumber_type_4.count == 0
@@ -105,12 +107,12 @@ class DealController < ApplicationController
         count = tempwinner_number.count
         return tempwinner_number[rand(0..count)]
       else
-        return Normal_random dealed_list
+        return Normal_random not_exist_deal
       end
     elsif called_turn == current_game.number_of_turn - 3
       max_point = Find_max_point current_game
       if max_point == 4 || max_point == 3
-        return Normal_random dealed_list
+        return Normal_random not_exist_deal
       elsif max_point == 2
         winnumber_type_2 = current_game.winnumber_type_2
         count = winnumber_type_2.count
@@ -119,7 +121,7 @@ class DealController < ApplicationController
     elsif called_turn == current_game.number_of_turn - 2
       max_point = Find_max_point current_game
       if max_point == 4
-        return Normal_random dealed_list
+        return Normal_random not_exist_deal
       elsif max_point == 3
         winnumber_type_3 = current_game.winnumber_type_3
         count = winnumber_type_3.count
@@ -130,13 +132,13 @@ class DealController < ApplicationController
       count = winnumber_type_4.count
       return winnumber_type_4[rand(0..count)]
     else
-      return Normal_random dealed_list
+      return Normal_random not_exist_deal
     end
   end
 
-  def Normal_random dealed_list
-    while check_random_number_existed(dealed_list, deal_num = rand(1..75))
-    end
+  def Normal_random not_exist_deal
+    count = not_exist_deal.count
+    deal_num = not_exist_deal.shuffle[rand(0..count-1)]
     return deal_num
   end
 
