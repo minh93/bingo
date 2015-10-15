@@ -17,7 +17,12 @@
 //= require_tree .
 
 function init(){
-  $.ajax({url: "deal/update", type: "POST", data: {authenticity_token: $("input[name=authenticity_token]").val()}, success: function(result){
+  $.ajax({
+    url: "deal/update",
+    type: "POST",
+    // data: {},
+    data: {authenticity_token: $("input[name=authenticity_token]").val()},
+    success: function(result){
     var str = "";
     for(var x in result){	
       str += result[x]["name"] + "---" +result[x]["updated"] + "---";
@@ -36,7 +41,13 @@ function startTimer(){
 
 function updateDealNumbers(){
   $("#response").html("&nbsp");
-  $.ajax({url: "/player/update", type: "POST",data: {type_of_action: "update_deal_numbers", authenticity_token: $("input[name=authenticity_token]").val()}, success: function(result){
+  $.ajax({
+    url: "/player/update",
+    type: "POST",
+    data: {
+      type_of_action: "update_deal_numbers",
+      authenticity_token: $("input[name=authenticity_token]").val()},
+    success: function(result){
     var str = "";
     for(var x in result){	
       str += result[x] + ", ";

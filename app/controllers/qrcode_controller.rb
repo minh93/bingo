@@ -10,7 +10,7 @@ class QrcodeController < ApplicationController
     end
 
     if session[:game_id].nil?
-      new_game = Deal.create(deal: Array.new, number_of_turn: @number_of_turn, tempwinner_number: Array.new, winnumber_type_2: Array.new, winnumber_type_3: Array.new, winnumber_type_4: Array.new)
+      new_game = Deal.create(deal: Array.new, number_of_turn: @number_of_turn, tempwinner_number: Array.new, winnumber_type_2: Array.new, winnumber_type_3: Array.new, winnumber_type_4: Array.new, not_exist_deal: (1..75).to_a, turn: 0)
       session[:game_id] = new_game.id      
     end
     host = "http://" + request.host_with_port

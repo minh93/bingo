@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150930075831) do
+ActiveRecord::Schema.define(version: 20151015083509) do
 
   create_table "deals", force: true do |t|
     t.string   "deal"
@@ -22,6 +22,8 @@ ActiveRecord::Schema.define(version: 20150930075831) do
     t.string   "winnumber_type_2"
     t.string   "winnumber_type_3"
     t.string   "winnumber_type_4"
+    t.string   "not_exist_deal"
+    t.integer  "turn"
   end
 
   create_table "players", force: true do |t|
