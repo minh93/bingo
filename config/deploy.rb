@@ -1,7 +1,7 @@
 # config valid only for current version of Capistrano
 lock '3.4.0'
 
-server '52.76.45.250', port: 22, roles: [:web, :app, :db], primary: true
+server '54.172.66.153', port: 22, roles: [:web, :app, :db], primary: true
 
 set :repo_url,        'git@github.com:minh93/bingo.git'
 set :application,     'bingo'

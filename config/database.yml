@@ -19,5 +19,5 @@ production:
   encoding: unicode
   database: bingo_db
   pool: 5
-  username: webapp
-  password: webapp
+  username: postgres
+  password: postgres
